@@ -1,24 +1,61 @@
 <html>
 <head>
-  <!--<link rel="stylesheet" href="/static/bootstrap.min.css">
-  <link rel="stylesheet" href="/static/main.css">-->
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link type = 'text/css' rel="stylesheet" href="/static/main.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 500,
+      values: [ 75, 300 ],
+      slide: function( event, ui ) {
+        $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+      }
+    });
+    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+    " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+  } );
+  </script>
+  <style>
+  html{
+    width:1000px;
+  }
+  body {
+    background-color:lightblue;
+    padding-top: 15%;
+    padding-bottom: 15px;
+    background-image:url("static/images/1.png");
+    position: fixed;
+    left: 0;
+    right: 0;
+    width:100%;
+    height:100%;
+  }
+
+  </style>
 </head>
 <body>
+  <div id = "main_body">
   <div class="topcorner">
-    <p>Project Name: {{ name }}</p>
-    <p>Student Name: ({{ netid }})</p>
+    <h1 id="title" style="font-size: 70px; font-family:lobster">
+        F
+        O
+        R
+        E
+        V
+        E
+        R
+        2
+        0
+    </h1>
   </div>
   <form class="form-inline global-search">
-    <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
-      C
-      <font color=#EA4335>S</font>
-      <font color=#FBBC05>4</font>
-      3
-      <font color=#34A853>0</font>
-      <font color=#EA4335>0</font>
-    </h1>
 
     <br><br>
 
@@ -65,46 +102,38 @@
       });
       </script>
     </div>
-      <br>
-      <label>Skin Concern/Desired Effect</label>
-      <label for = "skin_concern1"><input type = "checkbox" id = "skin_concern1" name="skin_concern[]" value="hydrating" required>Hydrating</label>
-      <label for = "skin_concern2"><input type = "checkbox" id = "skin_concern2" name="skin_concern[]" value="acne" required>Acne</label>
-      <label for = "skin_concern3"><input type = "checkbox" id = "skin_concern3" name="skin_concern[]" value="aging" required>Aging</label>
-      <label for = "skin_concern4"><input type = "checkbox" id = "skin_concern4" name="skin_concern[]" value="blackheads" required>Blackheads</label>
-      <label for = "skin_concern5"><input type = "checkbox" id = "skin_concern5" name="skin_concern[]" value="sensitivity" required>Sensitivity</label>
-      <label for = "skin_concern6"><input type = "checkbox" id = "skin_concern6" name="skin_concern[]" value="pores" required>Pores</label>
-      <label for = "skin_concern7"><input type = "checkbox" id = "skin_concern7" name="skin_concern[]" value="smoothing" required>Smoothing</label>
-      <label for = "skin_concern8"><input type = "checkbox" id = "skin_concern8" name="skin_concern[]" value="brightening" required>Brightening</label>
-      <label for = "skin_concern9"><input type = "checkbox" id = "skin_concern9" name="skin_concern[]" value="whitening" required>Whitening</label>
-      <label for = "skin_concern10"><input type = "checkbox" id = "skin_concern10" name="skin_concern[]" value="exfoliating" required>Exfoliating</label>
-      <label for = "skin_concern11"><input type = "checkbox" id = "skin_concern11" name="skin_concern[]" value="wrinkle" required>Wrinkle</label>
-      <label for = "skin_concern12"><input type = "checkbox" id = "skin_concern12" name="skin_concern[]" value="dark_spot" required>Dark Spot</label>
-      <label for = "skin_concern13"><input type = "checkbox" id = "skin_concern13" name="skin_concern[]" value="lightweight" required>Lightweight</label>
-      <label for = "skin_concern14"><input type = "checkbox" id = "skin_concern14" name="skin_concern[]" value="mattifying" required>Mattifying</label>
-      <label for = "skin_concern15"><input type = "checkbox" id = "skin_concern15" name="skin_concern[]" value="non-greasy" required>Non-greasy</label>
-      <label for = "skin_concern16"><input type = "checkbox" id = "skin_concern16" name="skin_concern[]" value="natural" required>Natural</label>
-      <label for = "skin_concern17"><input type = "checkbox" id = "skin_concern17" name="skin_concern[]" value="absorbs_quickly" required>Absorbs Quickly</label>
-      <label for = "skin_concern18"><input type = "checkbox" id = "skin_concern18" name="skin_concern[]" value="refreshing" required>Refreshing</label>
-      <label for = "skin_concern19"><input type = "checkbox" id = "skin_concern19" name="skin_concern[]" value="sheer_converage" required>Sheer Coverage</label>
-      <label for = "skin_concern20"><input type = "checkbox" id = "skin_concern20" name="skin_concern[]" value="non-sticky" required>Non-sticky</label>
-      <label for = "skin_concern21"><input type = "checkbox" id = "skin_concern21" name="skin_concern[]" value="scented" required>Scented</label>
-      <label for = "skin_concern22"><input type = "checkbox" id = "skin_concern22" name="skin_concern[]" value="glossy" required>Glossy</label>
-      <label for = "skin_concern23"><input type = "checkbox" id = "skin_concern23" name="skin_concern[]" value="fast-acting" required>Acting</label>
-      <label for = "skin_concern24"><input type = "checkbox" id = "skin_concern24" name="skin_concern[]" value="rich" required>Rich</label>
-      <label for = "skin_concern25"><input type = "checkbox" id = "skin_concern25" name="skin_concern[]" value="milky" required>Milky</label>
-      <label for = "skin_concern26"><input type = "checkbox" id = "skin_concern26" name="skin_concern[]" value="gentle" required>Gentle</label>
-      <label for = "skin_concern27"><input type = "checkbox" id = "skin_concern27" name="skin_concern[]" value="foamy" required>Foamy</label>
-      <label for = "skin_concern28"><input type = "checkbox" id = "skin_concern28" name="skin_concern[]" value="portable" required>Portable</label>
-      <script type="text/javascript">
-      $(document).ready(function() {
-        $("button").click(function(){
-          var favorite = [];
-          $.each($("input[name='sport']:checked"), function(){
-            favorite.push($(this).val());
-          });
-      });
-      });
-    </script>
+    <label for="amount">Price range:</label>
+    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+    <br>
+    <label>Skin Concern/Desired Effect</label>
+    <label for = "skin_concern1"><input type = "checkbox" id = "skin_concern1" name="skin_concern" value="hydrating" required>Hydrating</label>
+    <label for = "skin_concern2"><input type = "checkbox" id = "skin_concern2" name="skin_concern" value="acne" required>Acne</label>
+    <label for = "skin_concern3"><input type = "checkbox" id = "skin_concern3" name="skin_concern" value="aging" required>Aging</label>
+    <label for = "skin_concern4"><input type = "checkbox" id = "skin_concern4" name="skin_concern" value="blackheads" required>Blackheads</label>
+    <label for = "skin_concern5"><input type = "checkbox" id = "skin_concern5" name="skin_concern" value="sensitivity" required>Sensitivity</label>
+    <label for = "skin_concern6"><input type = "checkbox" id = "skin_concern6" name="skin_concern" value="pores" required>Pores</label>
+    <label for = "skin_concern7"><input type = "checkbox" id = "skin_concern7" name="skin_concern" value="smoothing" required>Smoothing</label>
+    <label for = "skin_concern8"><input type = "checkbox" id = "skin_concern8" name="skin_concern" value="brightening" required>Brightening</label>
+    <label for = "skin_concern9"><input type = "checkbox" id = "skin_concern9" name="skin_concern" value="whitening" required>Whitening</label>
+    <label for = "skin_concern10"><input type = "checkbox" id = "skin_concern10" name="skin_concern" value="exfoliating" required>Exfoliating</label>
+    <label for = "skin_concern11"><input type = "checkbox" id = "skin_concern11" name="skin_concern" value="wrinkle" required>Wrinkle</label>
+    <label for = "skin_concern12"><input type = "checkbox" id = "skin_concern12" name="skin_concern" value="dark_spot" required>Dark Spot</label>
+    <label for = "skin_concern13"><input type = "checkbox" id = "skin_concern13" name="skin_concern" value="lightweight" required>Lightweight</label>
+    <label for = "skin_concern14"><input type = "checkbox" id = "skin_concern14" name="skin_concern" value="mattifying" required>Mattifying</label>
+    <label for = "skin_concern15"><input type = "checkbox" id = "skin_concern15" name="skin_concern" value="non-greasy" required>Non-greasy</label>
+    <label for = "skin_concern16"><input type = "checkbox" id = "skin_concern16" name="skin_concern" value="natural" required>Natural</label>
+    <label for = "skin_concern17"><input type = "checkbox" id = "skin_concern17" name="skin_concern" value="absorbs_quickly" required>Absorbs Quickly</label>
+    <label for = "skin_concern18"><input type = "checkbox" id = "skin_concern18" name="skin_concern" value="refreshing" required>Refreshing</label>
+    <label for = "skin_concern19"><input type = "checkbox" id = "skin_concern19" name="skin_concern" value="sheer_converage" required>Sheer Coverage</label>
+    <label for = "skin_concern20"><input type = "checkbox" id = "skin_concern20" name="skin_concern" value="non-sticky" required>Non-sticky</label>
+    <label for = "skin_concern21"><input type = "checkbox" id = "skin_concern21" name="skin_concern" value="scented" required>Scented</label>
+    <label for = "skin_concern22"><input type = "checkbox" id = "skin_concern22" name="skin_concern" value="glossy" required>Glossy</label>
+    <label for = "skin_concern23"><input type = "checkbox" id = "skin_concern23" name="skin_concern" value="fast-acting" required>Acting</label>
+    <label for = "skin_concern24"><input type = "checkbox" id = "skin_concern24" name="skin_concern" value="rich" required>Rich</label>
+    <label for = "skin_concern25"><input type = "checkbox" id = "skin_concern25" name="skin_concern" value="milky" required>Milky</label>
+    <label for = "skin_concern26"><input type = "checkbox" id = "skin_concern26" name="skin_concern" value="gentle" required>Gentle</label>
+    <label for = "skin_concern27"><input type = "checkbox" id = "skin_concern27" name="skin_concern" value="foamy" required>Foamy</label>
+    <label for = "skin_concern28"><input type = "checkbox" id = "skin_concern28" name="skin_concern" value="portable" required>Portable</label>
     <script>
     $(function(){
 
@@ -123,24 +152,28 @@
 
     });
     </script>
-  <button type="submit" class="btn btn-info"> Go! </button>
-</form>
-<form class="form-inline global-search">
-  {% if data %}
-  <h1>{{output_message}}</h1>
-  {% for d in data %}
-  <div class = "product">
-    <p class="productName">{{d['name']}}</p>
-    <p class="productBrand">{{d['brand']}}</p>
-    <img class="productImage" src = "{{d['image']}}" alt='productImage'/>
-    <p class="productPrice">{{d['price']}}</p>
-    <p class="productRating">{{d['rating']}}</p>
-  </div>
-  <br>
-  <p>{{d}}</p>
-  {% endfor %}
-  {% endif %}
-</form>
+    <button type="submit" class="btn btn-info"> Go! </button>
+  </form>
+  <form class="form-inline global-search">
+    {% if data %}
+    <h1>{{output_message}}</h1>
+    {% for d in data %}
+    <div class = "product">
+      <p class="productName">{{d['name']}}</p>
+      <p class="productBrand">{{d['brand']}}</p>
+      <img class="productImage" src = "{{d['image']}}" alt='productImage'/>
+      <p class="productPrice">{{d['price']}}</p>
+      <p class="productRating">{{d['rating']}}</p>
+    </div>
+    <br>
+    <p>{{d}}</p>
+    {% endfor %}
+    {% else: %}
+    <h1>{{output_message}}</h1>
+    {% endif %}
+  </form>
+      <p>Student Name: ({{ netid }})</p>
+    </div>
 </body>
 
 </html>

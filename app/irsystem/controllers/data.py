@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 
 # open csv files
+"""
 cleanser_db = pd.read_csv('data/cleanser_db.csv')
 eye_care_db = pd.read_csv('data/eye_care_db.csv')
 lip_treatment_db = pd.read_csv('data/lip_treatment_db.csv')
@@ -10,7 +11,8 @@ masks_db = pd.read_csv('data/masks_db.csv')
 moisturizer_db = pd.read_csv('data/moisturizer_db.csv')
 sun_care_db = pd.read_csv('data/sun_care_db.csv')
 treatment_db = pd.read_csv('data/treatment_db.csv')
-""" 
+"""
+"""
 Class Representing the information of a product
 """
 class Product:
@@ -45,14 +47,14 @@ def parse_category(category_name, db, product_dict, category_dict, brand_dict):
     else:
       price = float(price_str[1:price_str.find('-')])
     if product_id not in product_dict:
-      product_dict[product_id] = Product(str(db['name'][i]), 
+      product_dict[product_id] = Product(str(db['name'][i]),
                                          brand,
                                          str(db['product_image_url'][i]),
                                          str(db['description'][i]),
                                          price,
                                          category_name
                                         )
-      
+
       if category_name not in category_dict:
         category_dict[category_name] = [product_id]
       else:
@@ -63,9 +65,9 @@ def parse_category(category_name, db, product_dict, category_dict, brand_dict):
       else:
         brand_dict[brand].append(product_id)
 
-    review = Review(str(db['review_text'][i]), 
+    review = Review(str(db['review_text'][i]),
                     int(str(db['rating'][i])),
-                    str(db['skin_type'][i]), 
+                    str(db['skin_type'][i]),
                     str(db['skin_concerns'][i])
                     )
     product_dict[product_id].reviews.append(review)
@@ -82,4 +84,4 @@ def parse_all():
   product_dict, category_dict, brand_dict = parse_category('treatment', treatment_db, product_dict, category_dict, brand_dict)
   return product_dict, category_dict, brand_dict
 
-product_dict, category_dict, brand_dict = parse_all()
+product_dict, category_dict, brand_dict = None, None, None#parse_all()
