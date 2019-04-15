@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 
 # open csv files
-"""
 cleanser_db = pd.read_csv('data/cleanser_db.csv')
 eye_care_db = pd.read_csv('data/eye_care_db.csv')
 lip_treatment_db = pd.read_csv('data/lip_treatment_db.csv')
@@ -11,7 +10,6 @@ masks_db = pd.read_csv('data/masks_db.csv')
 moisturizer_db = pd.read_csv('data/moisturizer_db.csv')
 sun_care_db = pd.read_csv('data/sun_care_db.csv')
 treatment_db = pd.read_csv('data/treatment_db.csv')
-"""
 """
 Class Representing the information of a product
 """

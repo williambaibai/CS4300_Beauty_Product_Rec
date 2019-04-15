@@ -7,21 +7,19 @@
 @media (min-width:400px){
   .global-search {
     padding: 20px 0;
-    text-align:center;
   }
   .global-search {
-    text-align:center;
     padding:10px;
   }
   .global-search .form-control {
-    width:500px;
+    width:80%;
   }
   .global-search * {
     margin-bottom:0;
   }
 }
 .btn{
-  background-color: 'black';
+  background-color: #4285F4;
   border: none
 }
 .step-links a{

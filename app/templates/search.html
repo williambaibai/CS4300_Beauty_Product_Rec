@@ -23,26 +23,25 @@
   } );
   </script>
   <style>
-  html{
-    width:1000px;
-  }
   body {
-    background-color:lightblue;
-    padding-top: 15%;
-    padding-bottom: 15px;
-    background-image:url("static/images/1.png");
-    position: fixed;
-    left: 0;
-    right: 0;
-    width:100%;
+    background-image:url("static/images/water_bubble.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100%,100%;
+    background-attachment: fixed;
+    margin-left:5%;
+    margin-right:5%;
+    width:90%;
     height:100%;
+  }
+  #project_name{
+    text-align:center;
   }
 
   </style>
 </head>
 <body>
   <div id = "main_body">
-  <div class="topcorner">
+  <div id="project_name">
     <h1 id="title" style="font-size: 70px; font-family:lobster">
         F
         O
@@ -102,8 +101,8 @@
       });
       </script>
     </div>
-    <label for="amount">Price range:</label>
-    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+    <!--<label for="amount">Price range:</label>
+    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">-->
     <br>
     <label>Skin Concern/Desired Effect</label>
     <label for = "skin_concern1"><input type = "checkbox" id = "skin_concern1" name="skin_concern" value="hydrating" required>Hydrating</label>
@@ -166,7 +165,6 @@
       <p class="productRating">{{d['rating']}}</p>
     </div>
     <br>
-    <p>{{d}}</p>
     {% endfor %}
     {% else: %}
     <h1>{{output_message}}</h1>
