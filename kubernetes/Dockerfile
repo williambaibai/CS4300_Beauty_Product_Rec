@@ -7,6 +7,7 @@ ADD app.py /service/app.py
 ADD config.py /service/config.py
 ADD manage.py /service/manage.py
 ADD requirements.txt /service/requirements.txt
+ADD data /service/data
 WORKDIR /service/
 RUN pip install -r requirements.txt
 CMD python -u app.py $APP_SETTINGS $DATABASE_URL

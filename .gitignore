@@ -5,3 +5,4 @@ vagrant/.vagrant
 vagrant/site.retry
 vagrant/a4keypair.pem
 *.csv
+*.DS_Store

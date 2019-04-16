@@ -74,7 +74,7 @@ def search():
 		'brand': product_dict[prod_id].brand,
 		'image': product_dict[prod_id].image,
 		'price': product_dict[prod_id].price,
-		'rating': product_dict[prod_id].rating()
+		'rating': str(round(product_dict[prod_id].rating(), 2))
 	} for prod_id in result_ids]
 	
 	return render_template('search.html', name=project_name, netid=net_id, output_message='Your Personalized Recommendation', data=data)
