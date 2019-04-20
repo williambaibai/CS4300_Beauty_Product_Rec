@@ -106,7 +106,8 @@ def vectorize():
   for product in product_info:
     concat_review = product.description
     for review in product.reviews:
-      concat_review = concat_review + review.text
+      if review.rating >= 3:
+        concat_review = concat_review + review.text
     prod_reviews.append(concat_review)
 
   vectorizer = TfidfVectorizer(max_features=5000, stop_words='english', max_df=0.8, min_df=10, norm='l2')
