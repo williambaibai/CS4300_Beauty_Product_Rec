@@ -59,6 +59,8 @@ brand_id_dict = data['brand_id_dict']
 vectorizer = data['vectorizer']
 id_to_idx = data['id_to_idx']
 prod_vocab_mat = data['prod_vocab_mat']
+words_compressed = data['words_compressed']
+docs_compressed = data['docs_compressed']
 
 
 @irsystem.route('/', methods=['GET'])
@@ -86,15 +88,32 @@ def search():
 		return render_template('search.html', name=project_name, netid=net_id, output_message='No results for the selected Category and Brand, Please Try Again', data=[])
 
 	# Use skin_concerns as query into the cosine sim search
+	'''
 	skin_concern_str = ''
 	for word in skin_concern:
 		skin_concern_str = skin_concern_str + word + " "
 	query_vec = vectorizer.transform([skin_concern_str]).toarray()[0]
+	'''
 
+	# filter product matrix
 	filtered_mat = prod_vocab_mat[[id_to_idx[prod_id] for prod_id in filtered_products_id]]
 	
 	# Run Cosine Sim
-	result_ids = cosine_sim(filtered_products_id, filtered_mat, query_vec)
+	#result_ids = cosine_sim(filtered_products_id, filtered_mat, query_vec)
+
+	# Use SVD to rank products
+	word_to_index = vectorizer.vocabulary_
+	svd_query = np.zeros(50)
+	count = 0
+	for word in skin_concern:
+		if word in word_to_index:
+			svd_query = svd_query + words_compressed[word_to_index[word]]
+			count += 1
+	svd_query = svd_query / count
+
+	result_ids = svd_closest_to_query(svd_query, 
+																		docs_compressed[[id_to_idx[prod_id] for prod_id in filtered_products_id]], 
+																		filtered_products_id)
 
 	# Generate return data
 	data = [{
@@ -124,3 +143,22 @@ def cosine_sim(filtered_products_id, tfidf_mat, query_vec):
 		sorted_idx = list(np.argsort(result))[::-1][:20]
 	product_ids = [(filtered_products_id[idx], result[idx]) for idx in sorted_idx]
 	return product_ids
+
+"""
+Return a list of products most similar to the input product
+"""
+def svd_closest_products(project_index_in, k = 5):
+  sims = docs_compressed.dot(docs_compressed[project_index_in,:])
+  asort = np.argsort(-sims)[:k+1]
+  return [(list(product_dict.keys())[i] ,sims[i]/sims[asort[0]]) for i in asort[1:]]
+
+"""
+Return a list of products most similar to the query
+"""
+def svd_closest_to_query(query, filtered_docs_compressed, filtered_products_id, k = 20):
+	sims = np.array([filtered_docs_compressed[i].dot(query) for i in range(0,len(filtered_docs_compressed))])
+	if len(sims) < k:
+		asort = np.argsort(-sims)[:len(sims) + 1]
+	else:
+		asort = np.argsort(-sims)[:k+1]
+	return [(filtered_products_id[i] ,sims[i]/sims[asort[0]]) for i in asort[1:]]

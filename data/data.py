@@ -2,7 +2,9 @@ import os
 import numpy as np
 import pandas as pd
 import pickle
+from scipy.sparse.linalg import svds
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import normalize
 
 # open csv files
 cleanser_db = pd.read_csv('cleanser_db.csv')
@@ -118,13 +120,21 @@ def vectorize():
   
 vectorizer, id_to_idx, prod_vocab_mat = vectorize()
 
+# SVD Decomposition
+words_compressed, _, docs_compressed = svds(prod_vocab_mat.transpose(), k=50)
+docs_compressed = docs_compressed.transpose()
+words_compressed = normalize(words_compressed, axis = 1)
+docs_compressed = normalize(docs_compressed, axis = 1)
+
 data = {'product_dict': product_dict, 
         'category_dict': category_dict, 
         'brand_dict': brand_dict, 
         'brand_id_dict': brand_id_dict, 
         'vectorizer': vectorizer, 
         'id_to_idx':id_to_idx, 
-        'prod_vocab_mat': prod_vocab_mat}
+        'prod_vocab_mat': prod_vocab_mat,
+        'words_compressed': words_compressed,
+        'docs_compressed': docs_compressed}
 
 pickle_file = 'data.p'
 
