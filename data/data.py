@@ -1,15 +1,17 @@
 import os
 import numpy as np
 import pandas as pd
+import pickle
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 # open csv files
-cleanser_db = pd.read_csv('data/cleanser_db.csv')
-eye_care_db = pd.read_csv('data/eye_care_db.csv')
-lip_treatment_db = pd.read_csv('data/lip_treatment_db.csv')
-masks_db = pd.read_csv('data/masks_db.csv')
-moisturizer_db = pd.read_csv('data/moisturizer_db.csv')
-sun_care_db = pd.read_csv('data/sun_care_db.csv')
-treatment_db = pd.read_csv('data/treatment_db.csv')
+cleanser_db = pd.read_csv('cleanser_db.csv')
+eye_care_db = pd.read_csv('eye_care_db.csv')
+lip_treatment_db = pd.read_csv('lip_treatment_db.csv')
+masks_db = pd.read_csv('masks_db.csv')
+moisturizer_db = pd.read_csv('moisturizer_db.csv')
+sun_care_db = pd.read_csv('sun_care_db.csv')
+treatment_db = pd.read_csv('treatment_db.csv')
 """
 Class Representing the information of a product
 """
@@ -95,3 +97,35 @@ def parse_all():
   return product_dict, category_dict, brand_dict, brand_id_dict
 
 product_dict, category_dict, brand_dict, brand_id_dict = parse_all()
+
+def vectorize():
+  prod_reviews = []
+  product_info = list(product_dict.values())
+  id_to_idx = {product_id : idx for (idx, product_id) in enumerate(product_dict.keys())}
+
+  for product in product_info:
+    concat_review = product.description
+    for review in product.reviews:
+      concat_review = concat_review + review.text
+    prod_reviews.append(concat_review)
+
+  vectorizer = TfidfVectorizer(max_features=5000, stop_words='english', max_df=0.8, min_df=10, norm='l2')
+
+  prod_vocab_mat = vectorizer.fit_transform(prod_reviews).toarray()
+
+  return vectorizer, id_to_idx, prod_vocab_mat
+  
+vectorizer, id_to_idx, prod_vocab_mat = vectorize()
+
+data = {'product_dict': product_dict, 
+        'category_dict': category_dict, 
+        'brand_dict': brand_dict, 
+        'brand_id_dict': brand_id_dict, 
+        'vectorizer': vectorizer, 
+        'id_to_idx':id_to_idx, 
+        'prod_vocab_mat': prod_vocab_mat}
+
+pickle_file = 'data.p'
+
+with open(pickle_file, "wb") as f:
+  pickle.dump(data, f)
