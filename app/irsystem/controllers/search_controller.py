@@ -25,8 +25,9 @@ class Product:
     self.price = price
     self.category = category
     self.reviews = []
+    self.rating = 0
 
-  def rating(self):
+  def compute_rating(self):
     total_score = 0
     for review in self.reviews:
       total_score += review.rating
@@ -56,6 +57,7 @@ product_dict = data['product_dict']
 category_dict = data['category_dict']
 brand_dict = data['brand_dict']
 brand_id_dict = data['brand_id_dict']
+skin_type_dict = data['skin_type_dict']
 vectorizer = data['vectorizer']
 id_to_idx = data['id_to_idx']
 prod_vocab_mat = data['prod_vocab_mat']
@@ -75,13 +77,15 @@ def search():
 	if not skin_concern:
 		return render_template('search.html', name=project_name, netid=net_id, output_message='', data=[])
 
-	# Filter products by query category and brand 
+	# Filter products by query category, brand, and skin type
 	filtered_products_id = set(product_dict.keys())
 	if category and str(category) != 'all_categories':
 		filtered_products_id = filtered_products_id.intersection(set(category_dict[category]))
 	if brand and str(brand) != 'all_brands':
 		brand_name = brand_id_dict[brand]
 		filtered_products_id = filtered_products_id.intersection(set(brand_dict[brand_name]))
+	if skin_type and str(skin_type) != 'all_skin_types':
+		filtered_products_id = filtered_products_id.intersection(set(skin_type_dict[skin_type]))
 	filtered_products_id = list(filtered_products_id)
 
 	if len(filtered_products_id) == 0:
@@ -121,7 +125,7 @@ def search():
 		'brand': product_dict[prod_id].brand,
 		'image': product_dict[prod_id].image,
 		'price': product_dict[prod_id].price,
-		'rating': str(round(product_dict[prod_id].rating(), 2)),
+		'rating': str(round(product_dict[prod_id].rating, 2)),
 		'description': product_dict[prod_id].description, 
 		'sim_score': score
 	} for (prod_id, score) in result_ids]
