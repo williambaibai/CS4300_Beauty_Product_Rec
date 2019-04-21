@@ -1,4 +1,4 @@
-from . import *  
+from . import *
 import numpy as np
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -73,7 +73,7 @@ def search():
 	price_range = request.args.get('price_range')
 	skin_concern = request.args.getlist('skin_concern')
 	skin_type = request.args.get('skin_type')
-	
+
 	if not skin_concern:
 		return render_template('search.html', name=project_name, netid=net_id, output_message='', data=[])
 
@@ -101,7 +101,7 @@ def search():
 
 	# filter product matrix
 	filtered_mat = prod_vocab_mat[[id_to_idx[prod_id] for prod_id in filtered_products_id]]
-	
+
 	# Run Cosine Sim
 	#result_ids = cosine_sim(filtered_products_id, filtered_mat, query_vec)
 
@@ -115,9 +115,11 @@ def search():
 			count += 1
 	svd_query = svd_query / count
 
-	result_ids = svd_closest_to_query(svd_query, 
-																		docs_compressed[[id_to_idx[prod_id] for prod_id in filtered_products_id]], 
+	result_ids = svd_closest_to_query(svd_query,
+																		docs_compressed[[id_to_idx[prod_id] for prod_id in filtered_products_id]],
 																		filtered_products_id)
+
+	result_ids = sort_by_ratings(result_ids)
 
 	# Generate return data
 	data = [{
@@ -129,7 +131,7 @@ def search():
 		'description': product_dict[prod_id].description, 
 		'sim_score': score
 	} for (prod_id, score) in result_ids]
-	
+
 	return render_template('search.html', name=project_name, netid=net_id, output_message='Your Personalized Recommendation', data=data)
 
 
@@ -137,7 +139,7 @@ def search():
 Returns a sorted list of product ID most similar to query
 """
 def cosine_sim(filtered_products_id, tfidf_mat, query_vec):
-	result = [] 
+	result = []
 	for i in range (0, len(tfidf_mat)):
 		score = np.dot(query_vec, tfidf_mat[i])
 		result.append(score)
@@ -166,3 +168,10 @@ def svd_closest_to_query(query, filtered_docs_compressed, filtered_products_id, 
 	else:
 		asort = np.argsort(-sims)[:k+1]
 	return [(filtered_products_id[i] ,sims[i]/sims[asort[0]]) for i in asort[1:]]
+
+def sort_by_ratings(list):
+	return sorted(list, key=lambda pair: product_dict[pair[0]].rating, reverse=True)
+
+def sort_by_popularity(list):
+	return sorted(list, key=lambda pair: len(product_dict[pair[0]].reviews), reverse=True)
+
