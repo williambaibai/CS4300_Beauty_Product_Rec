@@ -22,6 +22,16 @@
     " - $" + $( "#slider-range" ).slider( "values", 1 ) );
   } );
   </script>
+  <script>
+  function showdetail(id){
+    document.getElementById(id).classList.remove("hidden");
+    document.getElementById('productback').classList.remove("hidden");
+}
+function closedetail(id){
+    document.getElementById(id).classList.add("hidden");
+    document.getElementById('productback').classList.add("hidden");
+}
+</script>
   <style>
   body {
     background-image:url("static/images/water_bubble.jpeg");
@@ -81,6 +91,33 @@ select.dropdown-color {
    padding-left: 15px;
 }
 
+#productback{
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index:1001;
+  opacity:.8;
+  transition: all 0.3s ease;
+}
+
+.hidden{
+  display:none;
+}
+
+.event_content{
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  width: 40%;
+  height: 40%;
+  padding: 20px;
+  background-color: #EBEBEB;
+  z-index:1002;
+  overflow: auto;
+}
   </style>
 </head>
 <body>
@@ -119,10 +156,10 @@ select.dropdown-color {
         <label class = "form_label" for="skin_type">Skin Type</label>
         <select id = "skin_type" class = "dropdown" name = "skin_type">
           <option value = "all_skin_types" selected = "selected">All Skin Types</option>
-          <option value = "dry">Dry</option>
-          <option value = "oily">Oily</option>
-          <option value = "combination">Combination</option>
-          <option value = "normal">Normal</option>
+          <option value = "Dry">Dry</option>
+          <option value = "Oily">Oily</option>
+          <option value = "Combination">Combination</option>
+          <option value = "Normal">Normal</option>
         </select>
           <label class = "form_label" for = "brand">Brand</label>
           <select id = "brand" class = "dropdown" name = "brand">
@@ -208,11 +245,20 @@ select.dropdown-color {
       <h1 style="font-size: 40px; font-family:lobster">{{output_message}}</h1>
       <br><br>
       {% for d in data %}
-      <div class = "product">
-        <img class="productImage" src = "{{d['image']}}" alt='productImage'/>
-        <p class="productName">{{d['brand']}}: {{d['name']}}</p>
+      <div id = "{{'prod_id'}}" class = "product">
+      <a href = "javascript:void(0)" onclick = "showdetail({{d['prod_id']}})"><img class="productImage" src = "{{d['image']}}" alt='productImage'/></a>
+      <a href = "javascript:void(0)" onclick = "showdetail({{d['prod_id']}})">{{d['brand']}}: {{d['name']}}</a>
         <p class="productPrice">${{d['price']}}</p>
+        <div class = "detail hidden" id = "{{d['prod_id']}}detail">
+          <img class="productImage" src = "{{d['image']}}" alt='productImage'/>
+          <p class="productName">{{d['brand']}}: {{d['name']}}</p>
+          <p class="productPrice">${{d['price']}}</p>
+          <p>{{d['sim_score']}}</p>
+          <p>Product Description:</p>
+          <p>{{d['description']}}</p>
+        </div>
         <p class="productRating">Avg rating: {{d['rating']}}</p>
+
       </div>
       {% endfor %}
       {% else: %}
@@ -221,6 +267,8 @@ select.dropdown-color {
     </div>
     </form>
     <p>Student Name: ({{ netid }})</p>
+    <div id = "eventback" class = "hidden">
+    </div>
 </body>
 
 </html>
