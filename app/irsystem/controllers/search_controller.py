@@ -163,3 +163,15 @@ def svd_closest_to_query(query, filtered_docs_compressed, filtered_products_id, 
 	else:
 		asort = np.argsort(-sims)[:k+1]
 	return [(filtered_products_id[i] ,sims[i]/sims[asort[0]]) for i in asort[1:]]
+
+def sort_by_ratings(dict):
+	id_rating_tuple_l = []
+	for id in dict:
+		id_rating_tuple_l.append((id,product_dict[id].rating))
+	return sorted(id_rating_tuple_l, key=lambda pair: pair[1])
+
+def sort_by_popularity(dict):
+	id_popularity_tuple_l=[]
+	for id in dict:
+		id_popularity_tuple_l.append((id, len(product_dict[id].reviews)))
+	return sorted(id_popularity_tuple_l, key=lambda pair: pair[1])

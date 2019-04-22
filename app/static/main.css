@@ -35,13 +35,3 @@
 .filiters{
   display: inline-block;
 }
-.product{
-  display: inline-block;
-  font-size: 15px;
-  font-family: sans-serif;
-  width: 20%;
-  margin-left: 5%;
-  height: 40%;
-  float:left;
-  margin-top: 20px;
-}
