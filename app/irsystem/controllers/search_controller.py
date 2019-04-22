@@ -71,7 +71,7 @@ def search():
 	# get search parameters
 	brand = request.args.get('brand')
 	category = request.args.get('category')
-	price_range = request.args.get('price_range')
+	price_range = str(request.args.get('amount'))
 	skin_concern = request.args.getlist('skin_concern')
 	skin_type = request.args.get('skin_type')
 	sort_option = request.args.get('sort')
@@ -80,7 +80,10 @@ def search():
 	if not skin_concern and not other:
 		return render_template('search.html', name=project_name, netid=net_id, output_message='', data=[])
 
-	# Filter products by query category, brand, and skin type
+	lowest_price = float(price_range[price_range.find('$')+1:price_range.find('-')])
+	highest_price = float(price_range[price_range.find('$', price_range.find('-'))+1:])
+
+	# Filter products by query category, brand, skin type, and price
 	filtered_products_id = set(product_dict.keys())
 	if category and str(category) != 'all_categories':
 		filtered_products_id = filtered_products_id.intersection(set(category_dict[category]))
@@ -89,7 +92,11 @@ def search():
 		filtered_products_id = filtered_products_id.intersection(set(brand_dict[brand_name]))
 	if skin_type and str(skin_type) != 'all_skin_types':
 		filtered_products_id = filtered_products_id.intersection(set(skin_type_dict[skin_type]))
-	filtered_products_id = list(filtered_products_id)
+	price_filter = []
+	for prod_id in filtered_products_id:
+		if product_dict[prod_id].price <= highest_price and product_dict[prod_id].price >= lowest_price:
+			price_filter.append(prod_id)
+	filtered_products_id = price_filter
 
 	if len(filtered_products_id) == 0:
 		return render_template('search.html', name=project_name, netid=net_id, output_message='No results for the selected Category and Brand, Please Try Again', data=[])
