@@ -3,7 +3,6 @@
   <link rel="stylesheet" href="/static/bootstrap.min.css">
   <link type = 'text/css' rel="stylesheet" href="/static/main.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link href="static/nouislider.min.css" rel="stylesheet">
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -174,7 +173,6 @@ select.dropdown-color {
 </style>
 </head>
 <body>
-  <script src="static/javascript/nouislider.min.js"></script>
   <div id = "main_body">
     <div id="project_name">
       <h1 id="title" style="font-size: 70px; font-family:lobster">
@@ -196,25 +194,25 @@ select.dropdown-color {
 
       <div class="form-group">
         <div class = "filters">
-        <label class = "form_label" for="category">Product Category</label>
-        <select id = "category" class = "dropdown" name = "category">
-          <option value = "all_categories" selected = "selected">All Categories</option>
-          <option value = "moisturizer">Moisturizer</option>
-          <option value = "cleanser">Cleanser</option>
-          <option value = "treatment">Treatment</option>
-          <option value = "mask">Mask</option>
-          <option value = "eye_care">Eye Care</option>
-          <option value = "sun_care">Sun Care</option>
-          <option value = "lip_treatment">Lip Treatment</option>
-        </select>
-        <label class = "form_label" for="skin_type">Skin Type</label>
-        <select id = "skin_type" class = "dropdown" name = "skin_type">
-          <option value = "all_skin_types" selected = "selected">All Skin Types</option>
-          <option value = "Dry">Dry</option>
-          <option value = "Oily">Oily</option>
-          <option value = "Combination">Combination</option>
-          <option value = "Normal">Normal</option>
-        </select>
+          <label class = "form_label" for="category">Product Category</label>
+          <select id = "category" class = "dropdown" name = "category">
+            <option value = "all_categories" selected = "selected">All Categories</option>
+            <option value = "moisturizer">Moisturizer</option>
+            <option value = "cleanser">Cleanser</option>
+            <option value = "treatment">Treatment</option>
+            <option value = "mask">Mask</option>
+            <option value = "eye_care">Eye Care</option>
+            <option value = "sun_care">Sun Care</option>
+            <option value = "lip_treatment">Lip Treatment</option>
+          </select>
+          <label class = "form_label" for="skin_type">Skin Type</label>
+          <select id = "skin_type" class = "dropdown" name = "skin_type">
+            <option value = "all_skin_types" selected = "selected">All Skin Types</option>
+            <option value = "Dry">Dry</option>
+            <option value = "Oily">Oily</option>
+            <option value = "Combination">Combination</option>
+            <option value = "Normal">Normal</option>
+          </select>
           <label class = "form_label" for = "brand">Brand</label>
           <select id = "brand" class = "dropdown" name = "brand">
             <option value = "all_brands" selected = "selected">All Brands</option>
@@ -271,29 +269,32 @@ select.dropdown-color {
         <label class = "concern_space" for = "skin_concern28"><input type = "checkbox" id = "skin_concern28" name="skin_concern" value="portable" required>Portable</label>
         <label class = "concern_space" for = "skin_concern29"><input type = "checkbox" id = "skin_concern29" name="skin_concern" value="long-lasting" required>Long-lasting</label>
         <label class = "concern_space" for = "skin_concern30"><input type = "checkbox" id = "skin_concern30" name="skin_concern" value="waterproof" required>Waterproof</label>
+        <label id = "other" class = "form_label" for = "other_concern">Others</label><input type = "text" id = "other_concern" name = "other_concern" placeholder="Please enter keywords and seperate by commas"/>
         <script>
         $(function(){
-
           var requiredCheckboxes = $(':checkbox[required]');
-
-          requiredCheckboxes.change(function(){
-
-            if(requiredCheckboxes.is(':checked')) {
+          var otherConcern = $('#other_concern');
+          otherConcern.change(function(){
+            if(otherConcern != ""){
               requiredCheckboxes.removeAttr('required');
+            }else{
+              requiredCheckboxes.change(function(){
+                if(requiredCheckboxes.is(':checked')) {
+                  requiredCheckboxes.removeAttr('required');
+                }else {
+                  requiredCheckboxes.attr('required', 'required');
+                }
+              });
             }
 
-            else {
-              requiredCheckboxes.attr('required', 'required');
-            }
           });
 
         });
         </script>
-        <label id = "other" class = "form_label" for = "other_concern">Others</label><input type = "text" id = "other_concern" name = "other_concern" placeholder="Please enter keywords and seperate by commas"/>
         <br><br><br>
         <label class = "form_label">How would you like to sort the products?</label>
+        <label clss = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" checked = "checked" required>Rating</label>
         <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" required>Popularity</label>
-        <label clss = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" required>Rating</label>
         <br><br><br>
         <button type="submit" class="btn btn-info">Search</button>
       </div>
