@@ -1,6 +1,7 @@
 from . import *
 import numpy as np
 import pickle
+import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from app.irsystem.models.helpers import *
 from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
@@ -73,6 +74,8 @@ def search():
 	price_range = request.args.get('price_range')
 	skin_concern = request.args.getlist('skin_concern')
 	skin_type = request.args.get('skin_type')
+	sort_option = request.args.get('sort')
+	other = request.args.get('other_concern')
 
 	if not skin_concern:
 		return render_template('search.html', name=project_name, netid=net_id, output_message='', data=[])
@@ -113,13 +116,20 @@ def search():
 		if word in word_to_index:
 			svd_query = svd_query + words_compressed[word_to_index[word]]
 			count += 1
+	for word in re.findall(r"[a-z]*", str(other).lower()):
+		if word in word_to_index:
+			svd_query = svd_query + words_compressed[word_to_index[word]]
+			count += 1
 	svd_query = svd_query / count
 
 	result_ids = svd_closest_to_query(svd_query,
 									  docs_compressed[[id_to_idx[prod_id] for prod_id in filtered_products_id]],
 									  filtered_products_id)
 
-	result_ids = sort_by_ratings(result_ids)
+	if sort_option == 'popularity':
+		result_ids = sort_by_popularity(result_ids)
+	else:
+		result_ids = sort_by_ratings(result_ids)
 
 	# Generate return data
 	data = [{
@@ -127,7 +137,7 @@ def search():
 		'brand': product_dict[prod_id].brand,
 		'image': product_dict[prod_id].image,
 		'price': product_dict[prod_id].price,
-		'rating': str(round(product_dict[prod_id].rating(), 2)),
+		'rating': str(round(product_dict[prod_id].rating, 2)),
 		'description': product_dict[prod_id].description,
 		'sim_score': score,
 		'prod_id': prod_id
