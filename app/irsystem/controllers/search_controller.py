@@ -77,7 +77,7 @@ def search():
 	sort_option = request.args.get('sort')
 	other = request.args.get('other_concern')
 
-	if not skin_concern:
+	if not skin_concern and other == '':
 		return render_template('search.html', name=project_name, netid=net_id, output_message='', data=[])
 
 	# Filter products by query category, brand, and skin type
