@@ -1,5 +1,5 @@
 flask:
-    image: williambaibai/flask-template:v1
+    image: williambaibai/flask-template:v3
     ports:
       - "5000:5000"
     environment:
