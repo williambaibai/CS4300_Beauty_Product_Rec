@@ -291,19 +291,6 @@ select.dropdown-color {
         </script>
         <label id = "other" class = "form_label" for = "other_concern">Others</label><input type = "text" id = "other_concern" name = "other_concern" placeholder="Please enter keywords and seperate by commas"/>
         <br><br><br>
-        <label class = "form_label" for = "price_range">Price Range</label><div id ="price_range" name = "price_range"></div>
-        <script>
-        var slider = document.getElementById('price_range');
-
-        noUiSlider.create(slider, {
-          start: [20, 80],
-          connect: true,
-          range: {
-            'min': 0,
-            'max': 100
-          }
-        });
-        </script>
         <label class = "form_label">How would you like to sort the products?</label>
         <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" required>Popularity</label>
         <label clss = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" required>Rating</label>
