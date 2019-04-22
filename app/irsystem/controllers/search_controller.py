@@ -25,8 +25,9 @@ class Product:
     self.price = price
     self.category = category
     self.reviews = []
+    self.rating = 0
 
-  def rating(self):
+  def compute_rating(self):
     total_score = 0
     for review in self.reviews:
       total_score += review.rating
@@ -56,6 +57,7 @@ product_dict = data['product_dict']
 category_dict = data['category_dict']
 brand_dict = data['brand_dict']
 brand_id_dict = data['brand_id_dict']
+skin_type_dict = data['skin_type_dict']
 vectorizer = data['vectorizer']
 id_to_idx = data['id_to_idx']
 prod_vocab_mat = data['prod_vocab_mat']
@@ -75,13 +77,19 @@ def search():
 	if not skin_concern:
 		return render_template('search.html', name=project_name, netid=net_id, output_message='', data=[])
 
+<<<<<<< HEAD
 	# Filter products by query category and brand
+=======
+	# Filter products by query category, brand, and skin type
+>>>>>>> da41ca9a55d3781fd2001446d81af8a79bc1e8be
 	filtered_products_id = set(product_dict.keys())
 	if category and str(category) != 'all_categories':
 		filtered_products_id = filtered_products_id.intersection(set(category_dict[category]))
 	if brand and str(brand) != 'all_brands':
 		brand_name = brand_id_dict[brand]
 		filtered_products_id = filtered_products_id.intersection(set(brand_dict[brand_name]))
+	if skin_type and str(skin_type) != 'all_skin_types':
+		filtered_products_id = filtered_products_id.intersection(set(skin_type_dict[skin_type]))
 	filtered_products_id = list(filtered_products_id)
 
 	if len(filtered_products_id) == 0:
@@ -112,8 +120,15 @@ def search():
 	svd_query = svd_query / count
 
 	result_ids = svd_closest_to_query(svd_query,
+<<<<<<< HEAD
 									  docs_compressed[[id_to_idx[prod_id] for prod_id in filtered_products_id]],
 									  filtered_products_id)
+=======
+																		docs_compressed[[id_to_idx[prod_id] for prod_id in filtered_products_id]],
+																		filtered_products_id)
+>>>>>>> da41ca9a55d3781fd2001446d81af8a79bc1e8be
+
+	result_ids = sort_by_ratings(result_ids)
 
 	# Generate return data
 	data = [{
@@ -121,10 +136,16 @@ def search():
 		'brand': product_dict[prod_id].brand,
 		'image': product_dict[prod_id].image,
 		'price': product_dict[prod_id].price,
+<<<<<<< HEAD
 		'rating': str(round(product_dict[prod_id].rating(), 2)),
 		'description': product_dict[prod_id].description,
 		'sim_score': score,
 		'prod_id': prod_id
+=======
+		'rating': str(round(product_dict[prod_id].rating, 2)),
+		'description': product_dict[prod_id].description, 
+		'sim_score': score
+>>>>>>> da41ca9a55d3781fd2001446d81af8a79bc1e8be
 	} for (prod_id, score) in result_ids]
 
 	return render_template('search.html', name=project_name, netid=net_id, output_message='Your Personalized Recommendation', data=data)
@@ -164,6 +185,7 @@ def svd_closest_to_query(query, filtered_docs_compressed, filtered_products_id, 
 		asort = np.argsort(-sims)[:k+1]
 	return [(filtered_products_id[i] ,sims[i]/sims[asort[0]]) for i in asort[1:]]
 
+<<<<<<< HEAD
 def sort_by_ratings(dict):
 	id_rating_tuple_l = []
 	for id in dict:
@@ -175,3 +197,11 @@ def sort_by_popularity(dict):
 	for id in dict:
 		id_popularity_tuple_l.append((id, len(product_dict[id].reviews)))
 	return sorted(id_popularity_tuple_l, key=lambda pair: pair[1])
+=======
+def sort_by_ratings(list):
+	return sorted(list, key=lambda pair: product_dict[pair[0]].rating, reverse=True)
+
+def sort_by_popularity(list):
+	return sorted(list, key=lambda pair: len(product_dict[pair[0]].reviews), reverse=True)
+
+>>>>>>> da41ca9a55d3781fd2001446d81af8a79bc1e8be

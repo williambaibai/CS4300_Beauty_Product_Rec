@@ -27,8 +27,9 @@ class Product:
     self.price = price
     self.category = category
     self.reviews = []
+    self.rating = 0
 
-  def rating(self):
+  def compute_rating(self):
     total_score = 0
     for review in self.reviews:
       total_score += review.rating
@@ -45,11 +46,12 @@ class Review:
     self.skin_concerns = skin_concerns
 
 
-def parse_category(category_name, db, product_dict, category_dict, brand_dict, brand_id_dict):
+def parse_category(category_name, db, product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict):
   for i in range(len(db.index)):
     product_id = str(db['product_id'][i])
     brand = str(db['brand'][i])
     brand_id = str(db['brand_id'][i])
+    description = str(db['description'][i])
     # handle special case for price
     price_str = str(db['price'][i])
     if price_str.find('-') == -1:
@@ -61,7 +63,7 @@ def parse_category(category_name, db, product_dict, category_dict, brand_dict, b
                                          brand,
                                          brand_id,
                                          str(db['product_image_url'][i]),
-                                         str(db['description'][i]),
+                                         description,
                                          price,
                                          category_name
                                         )
@@ -76,6 +78,15 @@ def parse_category(category_name, db, product_dict, category_dict, brand_dict, b
       else:
         brand_dict[brand].append(product_id)
 
+      if 'Normal' in description or category_name == 'lip_treatment':
+        skin_type_dict['Normal'].append(product_id)
+      if 'Oily' in description or category_name == 'lip_treatment':
+        skin_type_dict['Oily'].append(product_id)
+      if 'Combination' in description or category_name == 'lip_treatment':
+        skin_type_dict['Combination'].append(product_id)
+      if 'Dry' in description or category_name == 'lip_treatment':
+        skin_type_dict['Dry'].append(product_id)
+
     if brand_id not in brand_id_dict:
       brand_id_dict[brand_id] = brand
 
@@ -86,19 +97,23 @@ def parse_category(category_name, db, product_dict, category_dict, brand_dict, b
                     )
     product_dict[product_id].reviews.append(review)
 
-  return product_dict, category_dict, brand_dict, brand_id_dict
+  return product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict
 
 def parse_all():
-  product_dict, category_dict, brand_dict, brand_id_dict = parse_category('cleanser', cleanser_db, {}, {}, {}, {})
-  product_dict, category_dict, brand_dict, brand_id_dict = parse_category('eye_care', eye_care_db, product_dict, category_dict, brand_dict, brand_id_dict)
-  product_dict, category_dict, brand_dict, brand_id_dict = parse_category('lip_treatment', lip_treatment_db, product_dict, category_dict, brand_dict, brand_id_dict)
-  product_dict, category_dict, brand_dict, brand_id_dict = parse_category('mask', masks_db, product_dict, category_dict, brand_dict, brand_id_dict)
-  product_dict, category_dict, brand_dict, brand_id_dict = parse_category('moisturizer', moisturizer_db, product_dict, category_dict, brand_dict, brand_id_dict)
-  product_dict, category_dict, brand_dict, brand_id_dict = parse_category('sun_care', sun_care_db, product_dict, category_dict, brand_dict, brand_id_dict)
-  product_dict, category_dict, brand_dict, brand_id_dict = parse_category('treatment', treatment_db, product_dict, category_dict, brand_dict, brand_id_dict)
-  return product_dict, category_dict, brand_dict, brand_id_dict
+  product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict = parse_category('cleanser', cleanser_db, {}, {}, {}, {}, {'Normal':[], 'Oily':[], 'Combination':[], 'Dry':[]})
+  product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict = parse_category('eye_care', eye_care_db, product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict)
+  product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict = parse_category('lip_treatment', lip_treatment_db, product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict)
+  product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict = parse_category('mask', masks_db, product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict)
+  product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict = parse_category('moisturizer', moisturizer_db, product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict)
+  product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict = parse_category('sun_care', sun_care_db, product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict)
+  product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict = parse_category('treatment', treatment_db, product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict)
+  return product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict
 
-product_dict, category_dict, brand_dict, brand_id_dict = parse_all()
+product_dict, category_dict, brand_dict, brand_id_dict, skin_type_dict = parse_all()
+
+# Compute Avg Rating
+for (prod_id, product) in product_dict.items():
+  product.rating = product.compute_rating()
 
 def vectorize():
   prod_reviews = []
@@ -130,6 +145,7 @@ data = {'product_dict': product_dict,
         'category_dict': category_dict, 
         'brand_dict': brand_dict, 
         'brand_id_dict': brand_id_dict, 
+        'skin_type_dict': skin_type_dict,
         'vectorizer': vectorizer, 
         'id_to_idx':id_to_idx, 
         'prod_vocab_mat': prod_vocab_mat,
