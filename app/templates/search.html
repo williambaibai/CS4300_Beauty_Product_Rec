@@ -45,6 +45,7 @@ body {
 
 /* -------------------- Select Box Styles: stackoverflow.com Method */
 /* -------------------- Source: http://stackoverflow.com/a/5809186 */
+/* -------------------- Arrow pic url: http://i62.tinypic.com/15xvbd5.png */
 select.dropdown, select.dropdown-color {
   -webkit-appearance: button;
   -webkit-border-radius: 2px;
@@ -52,7 +53,7 @@ select.dropdown, select.dropdown-color {
   -webkit-padding-end: 20px;
   -webkit-padding-start: 2px;
   -webkit-user-select: none;
-  background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+  background-image: url(static/images/arrow.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
   background-position: 97% center;
   background-repeat: no-repeat;
   border: 1px solid #AAA;
@@ -278,6 +279,7 @@ select.dropdown-color {
             if(otherConcern != ""){
               requiredCheckboxes.removeAttr('required');
             }else{
+              requiredCheckboxes.attr('required','required')
               requiredCheckboxes.change(function(){
                 if(requiredCheckboxes.is(':checked')) {
                   requiredCheckboxes.removeAttr('required');
@@ -288,6 +290,20 @@ select.dropdown-color {
             }
 
           });
+
+          requiredCheckboxes.change(function(){
+            if(requiredCheckboxes.is(':checked')){
+              requiredCheckboxes.removeAttr('required');
+            }else{
+              otherConcern.change(function(){
+                if (otherConcern != ""){
+                  requiredCheckboxes.removeAttr('required')
+                }else{
+                  requiredCheckboxes.attr('required','required');
+                }
+              })
+            }
+          })
 
         });
         </script>
