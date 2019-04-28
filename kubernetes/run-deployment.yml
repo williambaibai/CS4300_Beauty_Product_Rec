@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: flask
-        image: williambaibai/flask-template:v1
+        image: williambaibai/flask-template:v3
         env:
         - name: APP_SETTINGS
           value: config.DevelopmentConfig
