@@ -52,9 +52,14 @@ body {
 
 .concern_space{
   margin-left:10px;
-  width:18%;
-  margin-top:10px;
+  width:100%;
+  margin-top:5px;
   font-size: 15px;
+}
+
+.concerns {
+  width:24%;
+  display: inline-block;
 }
 
 .form_label{
@@ -166,13 +171,13 @@ select.dropdown-color {
   right:5px;
 }
 #other{
-  margin-left:10px;
-  width:10%;
+  width:11%;
   margin-top:10px;
   font-size: 15px;
 }
 #other_concern{
-  width:85%;
+  width:80%;
+  margin-bottom: 10px;
 }
 .sort_space{
   width:15%;
@@ -295,36 +300,42 @@ select.dropdown-color {
           });
           </script>
           <br>
-          <label id = "other" class = "form_label" for = "other_concern">Skin Concerns</label><input type = "text" id = "other_concern" name = "other_concern" placeholder="Enter your skin concerns or/and what you look for in a product separated by commas"/>
-          <label class = "form_label">If You Don't Know What to Enter, Check the Suggestions Below</label>
+          <label id = "other" class = "form_label" for = "other_concern">Skin Concerns:</label><input type = "text" id = "other_concern" name = "other_concern" placeholder="Enter your skin concerns or/and what you look for in a product separated by commas"/>
+          <label class = "form_label">If You Don't Know What to Enter, Check the Suggestions Below:</label>
           <br>
+          <br>
+          <div class='concerns'>
           <label class = "form_label">Effects: </label>
           <br>
-          <label class = "concern_space" for = "skin_concern17"><input type = "checkbox" id = "skin_concern17" name="skin_concern" value="absorbs_quickly" required>Absorbs Quickly</label>
           <label class = "concern_space" for = "skin_concern8"><input type = "checkbox" id = "skin_concern8" name="skin_concern" value="brightening" required>Brightening</label>
           <label class = "concern_space" for = "skin_concern10"><input type = "checkbox" id = "skin_concern10" name="skin_concern" value="exfoliating" required>Exfoliating</label>
           <label class = "concern_space" for = "skin_concern1"><input type = "checkbox" id = "skin_concern1" name="skin_concern" value="hydrating" required>Hydrating</label>
           <label class = "concern_space" for = "skin_concern7"><input type = "checkbox" id = "skin_concern7" name="skin_concern" value="smoothing" required>Smoothing</label>
           <label class = "concern_space" for = "skin_concern9"><input type = "checkbox" id = "skin_concern9" name="skin_concern" value="whitening" required>Whitening</label>
           <label class = "concern_space" for = "skin_concern18"><input type = "checkbox" id = "skin_concern18" name="skin_concern" value="refreshing" required>Refreshing</label>
-          <br>
+          </div>
+
+          <div class='concerns'>
           <label class = "form_label">Problems: </label>
           <br>
           <label class = "concern_space" for = "skin_concern2"><input type = "checkbox" id = "skin_concern2" name="skin_concern" value="acne" required>Acne</label>
-          <label class = "concern_space" for = "skin_concern3"><input type = "checkbox" id = "skin_concern3" name="skin_concern" value="aging" required>Aging</label>
           <label class = "concern_space" for = "skin_concern4"><input type = "checkbox" id = "skin_concern4" name="skin_concern" value="blackheads" required>Blackheads</label>
           <label class = "concern_space" for = "skin_concern12"><input type = "checkbox" id = "skin_concern12" name="skin_concern" value="dark_spot" required>Dark Spot</label>
           <label class = "concern_space" for = "skin_concern5"><input type = "checkbox" id = "skin_concern5" name="skin_concern" value="sensitivity" required>Sensitivity</label>
           <label class = "concern_space" for = "skin_concern6"><input type = "checkbox" id = "skin_concern6" name="skin_concern" value="pores" required>Pores</label>
           <label class = "concern_space" for = "skin_concern11"><input type = "checkbox" id = "skin_concern11" name="skin_concern" value="wrinkle" required>Wrinkle</label>
-          <br>
+          </div>
+
+          <div class='concerns'>
           <label class = "form_label">Texture: </label>
           <br>
           <label class = "concern_space" for = "skin_concern27"><input type = "checkbox" id = "skin_concern27" name="skin_concern" value="foamy" required>Foamy</label>
           <label class = "concern_space" for = "skin_concern13"><input type = "checkbox" id = "skin_concern13" name="skin_concern" value="lightweight" required>Lightweight</label>
           <label class = "concern_space" for = "skin_concern25"><input type = "checkbox" id = "skin_concern25" name="skin_concern" value="milky" required>Milky</label>
           <label class = "concern_space" for = "skin_concern15"><input type = "checkbox" id = "skin_concern15" name="skin_concern" value="non-greasy" required>Non-greasy</label>
-          <br>
+          </div>
+
+          <div class='concerns'>
           <label class = "form_label">Feature: </label>
           <br>
           <label class = "concern_space" for = "skin_concern26"><input type = "checkbox" id = "skin_concern26" name="skin_concern" value="gentle" required>Gentle</label>
@@ -333,6 +344,7 @@ select.dropdown-color {
           <label class = "concern_space" for = "skin_concern28"><input type = "checkbox" id = "skin_concern28" name="skin_concern" value="portable" required>Portable</label>
           <label class = "concern_space" for = "skin_concern21"><input type = "checkbox" id = "skin_concern21" name="skin_concern" value="scented" required>Scented</label>
           <label class = "concern_space" for = "skin_concern30"><input type = "checkbox" id = "skin_concern30" name="skin_concern" value="waterproof" required>Waterproof</label>
+          </div>
 
 
 
