@@ -8,6 +8,9 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script type="text/javascript" src="static/typeahead.bundle.js"></script>
+  <link rel="stylesheet" href="/static/bootstrap-tagsinput-master/dist/bootstrap-tagsinput.css"/>
+  <script src="/static/bootstrap-tagsinput-master/dist/bootstrap-tagsinput.js"></script>
   <script>
   function showdetail(id){
     document.getElementById(id).classList.remove("hidden");
@@ -19,7 +22,29 @@
   }
 </script>
 <script>
-$(function() {
+  {% if old_amount %}
+  var p_range = '{{old_amount}}'
+  var dash_idx = p_range.indexOf("-")
+  var low_end = dash_idx - 1
+  var high_start = dash_idx + 3
+  var low_p = p_range.substr(1 , low_end)
+  var high_p = p_range.substr(high_start ,)
+  $(function() {
+  $( "#slider-range" ).slider({
+    range: true,
+    min: 0,
+    max: 1000,
+    values: [ low_p, high_p],
+    slide: function( event, ui ) {
+      $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+    }
+  });
+  $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+  " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+});
+
+  {% else %}
+  $(function() {
   $( "#slider-range" ).slider({
     range: true,
     min: 0,
@@ -33,6 +58,7 @@ $(function() {
   $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
   " - $" + $( "#slider-range" ).slider( "values", 1 ) );
 });
+{% endif %}
 </script>
 <style>
 body {
@@ -57,9 +83,13 @@ body {
   font-size: 15px;
 }
 
+#checkboxes{
+  display: flex;
+}
+
 .concerns {
   width:24%;
-  display: inline-block;
+  flex:1;
 }
 
 .form_label{
@@ -96,6 +126,11 @@ select.dropdown, select.dropdown-color {
 .global-search {
   margin-left:5%;
   width:90%;
+}
+
+.form-group{
+  background-color: rgba(255,255,255,0.9);
+  width:100%;
 }
 
 select.dropdown-color {
@@ -170,13 +205,9 @@ select.dropdown-color {
   top:5px;
   right:5px;
 }
-#other{
-  width:11%;
-  margin-top:10px;
-  font-size: 15px;
-}
 #other_concern{
-  width:80%;
+  width: 80%;
+  margin-left: 2%;
   margin-bottom: 10px;
 }
 .sort_space{
@@ -233,28 +264,53 @@ select.dropdown-color {
         <div class = "filters">
           <label class = "form_label" for="category">Product Category</label>
           <select id = "category" class = "dropdown" name = "category">
-            <option value = "all_categories" selected = "selected">All Categories</option>
-            <option value = "moisturizer">Moisturizer</option>
-            <option value = "cleanser">Cleanser</option>
-            <option value = "treatment">Treatment</option>
-            <option value = "mask">Mask</option>
-            <option value = "eye_care">Eye Care</option>
-            <option value = "sun_care">Sun Care</option>
-            <option value = "lip_treatment">Lip Treatment</option>
+            <option id = "all_categories" value = "all_categories" selected = "selected">All Categories</option>
+            <option id = "moisturizer" value = "moisturizer">Moisturizer</option>
+            <option id = "cleanser" value = "cleanser">Cleanser</option>
+            <option id = "treatment" value = "treatment">Treatment</option>
+            <option id = "mask" value = "mask">Mask</option>
+            <option id = "eye_care" value = "eye_care">Eye Care</option>
+            <option id = "sun_care" value = "sun_care">Sun Care</option>
+            <option id = "lip_treatment" value = "lip_treatment">Lip Treatment</option>
           </select>
+          <script>
+          var cate_list = ['moisturizer','cleanser','treatment','mask','eye_care','sun_care','lip_treatment'];
+          d3.select("#all_categories").attr("selected","selected")
+          cate_list.forEach(cate =>{
+            if (cate === '{{old_category}}'){
+              d3.select("#all_categories").attr("selected",null)
+              d3.select('#'+cate).attr("selected","selected")
+            }else{
+              d3.select('#'+cate).attr("selected",null)
+            }
+          })
+          </script>
+
           <label class = "form_label" for="skin_type">Skin Type</label>
           <select id = "skin_type" class = "dropdown" name = "skin_type">
-            <option value = "all_skin_types" selected = "selected">All Skin Types</option>
-            <option value = "Dry">Dry</option>
-            <option value = "Oily">Oily</option>
-            <option value = "Combination">Combination</option>
-            <option value = "Normal">Normal</option>
+            <option id = "all_skin_types" value = "all_skin_types" selected = "selected">All Skin Types</option>
+            <option id = "Dry" value = "Dry">Dry</option>
+            <option id = "Oily" value = "Oily">Oily</option>
+            <option id = "Combination" value = "Combination">Combination</option>
+            <option id = "Normal" value = "Normal">Normal</option>
           </select>
+          <script>
+          var skin_list = ['Dry','Oily','Combination','Normal'];
+          d3.select("all_skin_types").attr("selected","selected")
+          skin_list.forEach(skin =>{
+            if(skin === "{{old_skin_type}}"){
+              d3.select("all_skin_types").attr("selected",null)
+              d3.select("#"+skin).attr("selected","selected")
+            }else{
+              d3.select('#'+skin).attr("selected",null)
+            }
+          })
+          </script>
           <label class = "form_label" for = "brand">Brand</label>
           <select id = "brand" class = "dropdown" name = "brand">
-            <option value = "all_brands" selected = "selected">All Brands</option>
+            <option value = "all_brands" id = "all_brands" selected = "selected">All Brands</option>
           </select>
-        </div>
+          <div>
           <script>
           var brandList = {'AERIN': '7054','AMOREPACIFIC': '5945','Algenist': '6018','Alpha-H': '6283','Anthony': '4374',
          'Apivita': '6078','bareMinerals': '5737','BECCA': '5717','BIOEFFECT': '8014', 'BeautyBio': '6272','belif': '7075',
@@ -297,61 +353,106 @@ select.dropdown-color {
           })
           .attr("value", function(d) {
             return brandList[d];
+          })
+          .attr("id",function(d){
+            return "brand"+brandList[d];
           });
+
+          d3.select("#all_brands").attr("selected","selected")
+          Object.keys(brandList).forEach(brand =>{
+            if(brandList[brand] === '{{old_brand}}'){
+              d3.select("#all_brands").attr("selected",null)
+              d3.select("#brand"+brandList[brand]).attr("selected","selected")
+            }else{
+              d3.select("#brand"+brandList[brand]).attr("selected",null)
+            }
+          })
           </script>
           <br>
-          <label id = "other" class = "form_label" for = "other_concern">Skin Concerns:</label><input type = "text" id = "other_concern" name = "other_concern" placeholder="Enter your skin concerns or/and what you look for in a product separated by commas"/>
+          <label class = "form_label" for = "other_concern">Skin Concerns</label><input type = "text" id = "other_concern" name = "other_concern" placeholder="Enter your skin concerns or/and what you look for in a product separated by commas" value = "{{old_other}}"/>
+          <script>
+          var keywords =  new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            prefetch: {
+                        url: 'static/word_suggestions.json'
+                      }
+          })
+          keywords.initialize();
+                    $('#other_concern').tagsinput({
+                        typeaheadjs: {
+                            name: 'keywords_list',
+                            displayKey: 'name',
+                            valueKey: 'name',
+                            source: keywords.ttAdapter(),
+                            hint: true,
+                        },
+                        confirmKeys: [13, 44],
+                        maxTags: 3,
+                        freeInput: false,
+                        delimiter: ';'
+                    });
+          </script>
+          <br>
           <label class = "form_label">If You Don't Know What to Enter, Check the Suggestions Below:</label>
           <br>
           <br>
+
+          <div id = "checkboxes">
           <div class='concerns'>
           <label class = "form_label">Effects: </label>
           <br>
-          <label class = "concern_space" for = "skin_concern8"><input type = "checkbox" id = "skin_concern8" name="skin_concern" value="brightening" required>Brightening</label>
-          <label class = "concern_space" for = "skin_concern10"><input type = "checkbox" id = "skin_concern10" name="skin_concern" value="exfoliating" required>Exfoliating</label>
-          <label class = "concern_space" for = "skin_concern1"><input type = "checkbox" id = "skin_concern1" name="skin_concern" value="hydrating" required>Hydrating</label>
-          <label class = "concern_space" for = "skin_concern7"><input type = "checkbox" id = "skin_concern7" name="skin_concern" value="smoothing" required>Smoothing</label>
-          <label class = "concern_space" for = "skin_concern9"><input type = "checkbox" id = "skin_concern9" name="skin_concern" value="whitening" required>Whitening</label>
-          <label class = "concern_space" for = "skin_concern18"><input type = "checkbox" id = "skin_concern18" name="skin_concern" value="refreshing" required>Refreshing</label>
+          <label class = "concern_space" for = "skin_concern8"><input type = "checkbox" class = "checks" id = "brightening" name="skin_concern" value="brightening" required>Brightening</label>
+          <label class = "concern_space" for = "skin_concern10"><input type = "checkbox" class = "checks" id = "exfoliating" name="skin_concern" value="exfoliating" required>Exfoliating</label>
+          <label class = "concern_space" for = "skin_concern1"><input type = "checkbox" class = "checks" id = "hydrating" name="skin_concern" value="hydrating" required>Hydrating</label>
+          <label class = "concern_space" for = "skin_concern7"><input type = "checkbox" class = "checks" id = "smoothing" name="skin_concern" value="smoothing" required>Smoothing</label>
+          <label class = "concern_space" for = "skin_concern9"><input type = "checkbox" class = "checks" id = "whitening" name="skin_concern" value="whitening" required>Whitening</label>
+          <label class = "concern_space" for = "skin_concern18"><input type = "checkbox" class = "checks" id = "refreshing" name="skin_concern" value="refreshing" required>Refreshing</label>
           </div>
 
           <div class='concerns'>
           <label class = "form_label">Problems: </label>
           <br>
-          <label class = "concern_space" for = "skin_concern2"><input type = "checkbox" id = "skin_concern2" name="skin_concern" value="acne" required>Acne</label>
-          <label class = "concern_space" for = "skin_concern4"><input type = "checkbox" id = "skin_concern4" name="skin_concern" value="blackheads" required>Blackheads</label>
-          <label class = "concern_space" for = "skin_concern12"><input type = "checkbox" id = "skin_concern12" name="skin_concern" value="dark_spot" required>Dark Spot</label>
-          <label class = "concern_space" for = "skin_concern5"><input type = "checkbox" id = "skin_concern5" name="skin_concern" value="sensitivity" required>Sensitivity</label>
-          <label class = "concern_space" for = "skin_concern6"><input type = "checkbox" id = "skin_concern6" name="skin_concern" value="pores" required>Pores</label>
-          <label class = "concern_space" for = "skin_concern11"><input type = "checkbox" id = "skin_concern11" name="skin_concern" value="wrinkle" required>Wrinkle</label>
+          <label class = "concern_space" for = "skin_concern2"><input type = "checkbox" class = "checks" id = "acne" name="skin_concern" value="acne" required>Acne</label>
+          <label class = "concern_space" for = "skin_concern4"><input type = "checkbox" class = "checks" id = "blackheads" name="skin_concern" value="blackheads" required>Blackheads</label>
+          <label class = "concern_space" for = "skin_concern12"><input type = "checkbox" class = "checks" id = "dark_spot" name="skin_concern" value="dark_spot" required>Dark Spot</label>
+          <label class = "concern_space" for = "skin_concern5"><input type = "checkbox" class = "checks" id = "sensitivity" name="skin_concern" value="sensitivity" required>Sensitivity</label>
+          <label class = "concern_space" for = "skin_concern6"><input type = "checkbox" class = "checks" id = "pores" name="skin_concern" value="pores" required>Pores</label>
+          <label class = "concern_space" for = "skin_concern11"><input type = "checkbox" class = "checks" id = "wrinkle" name="skin_concern" value="wrinkle" required>Wrinkle</label>
           </div>
 
           <div class='concerns'>
           <label class = "form_label">Texture: </label>
           <br>
-          <label class = "concern_space" for = "skin_concern27"><input type = "checkbox" id = "skin_concern27" name="skin_concern" value="foamy" required>Foamy</label>
-          <label class = "concern_space" for = "skin_concern13"><input type = "checkbox" id = "skin_concern13" name="skin_concern" value="lightweight" required>Lightweight</label>
-          <label class = "concern_space" for = "skin_concern25"><input type = "checkbox" id = "skin_concern25" name="skin_concern" value="milky" required>Milky</label>
-          <label class = "concern_space" for = "skin_concern15"><input type = "checkbox" id = "skin_concern15" name="skin_concern" value="non-greasy" required>Non-greasy</label>
+          <label class = "concern_space" for = "skin_concern27"><input type = "checkbox" class = "checks" id = "foamy" name="skin_concern" value="foamy" required>Foamy</label>
+          <label class = "concern_space" for = "skin_concern13"><input type = "checkbox" class = "checks" id = "lightweight" name="skin_concern" value="lightweight" required>Lightweight</label>
+          <label class = "concern_space" for = "skin_concern25"><input type = "checkbox" class = "checks" id = "milky" name="skin_concern" value="milky" required>Milky</label>
+          <label class = "concern_space" for = "skin_concern15"><input type = "checkbox" class = "checks" id = "non-greasy" name="skin_concern" value="non-greasy" required>Non-greasy</label>
           </div>
 
           <div class='concerns'>
           <label class = "form_label">Feature: </label>
           <br>
-          <label class = "concern_space" for = "skin_concern26"><input type = "checkbox" id = "skin_concern26" name="skin_concern" value="gentle" required>Gentle</label>
-          <label class = "concern_space" for = "skin_concern29"><input type = "checkbox" id = "skin_concern29" name="skin_concern" value="long-lasting" required>Long-lasting</label>
-          <label class = "concern_space" for = "skin_concern16"><input type = "checkbox" id = "skin_concern16" name="skin_concern" value="natural" required>Natural</label>
-          <label class = "concern_space" for = "skin_concern28"><input type = "checkbox" id = "skin_concern28" name="skin_concern" value="portable" required>Portable</label>
-          <label class = "concern_space" for = "skin_concern21"><input type = "checkbox" id = "skin_concern21" name="skin_concern" value="scented" required>Scented</label>
-          <label class = "concern_space" for = "skin_concern30"><input type = "checkbox" id = "skin_concern30" name="skin_concern" value="waterproof" required>Waterproof</label>
+          <label class = "concern_space" for = "skin_concern26"><input type = "checkbox" class = "checks" id = "gentle" name="skin_concern" value="gentle" required>Gentle</label>
+          <label class = "concern_space" for = "skin_concern29"><input type = "checkbox" class = "checks" id = "long-lasting" name="skin_concern" value="long-lasting" required>Long-lasting</label>
+          <label class = "concern_space" for = "skin_concern16"><input type = "checkbox" class = "checks" id = "natural" name="skin_concern" value="natural" required>Natural</label>
+          <label class = "concern_space" for = "skin_concern28"><input type = "checkbox" class = "checks" id = "portable" name="skin_concern" value="portable" required>Portable</label>
+          <label class = "concern_space" for = "skin_concern21"><input type = "checkbox" class = "checks" id = "scented" name="skin_concern" value="scented" required>Scented</label>
+          <label class = "concern_space" for = "skin_concern30"><input type = "checkbox" class = "checks" id = "waterproof" name="skin_concern" value="waterproof" required>Waterproof</label>
           </div>
+        </div>
 
 
 
           <script>
+
           $(function(){
             var requiredCheckboxes = $(':checkbox[required]');
             var otherConcern = $('#other_concern');
+            {% if old_skin_concern or old_other %}
+            requiredCheckboxes.removeAttr('required')
+
+            {% else %}
             otherConcern.change(function(){
               if(otherConcern != ""){
                 requiredCheckboxes.removeAttr('required');
@@ -381,8 +482,21 @@ select.dropdown-color {
                 })
               }
             })
+            {% endif %}
 
           });
+
+
+          var old_concern = '{{old_skin_concern}}'
+          old_concern = old_concern.replace('[','');
+          old_concern = old_concern.replace(']','');
+          old_concern = old_concern.replace(/&#39;/g, '')
+          old_concern = old_concern.replace(/ /g,'')
+          old_concern = old_concern.split(',')
+          d3.selectAll('.checks').property('checked',false)
+          old_concern.forEach(concern =>{
+            d3.select("#"+concern).property('checked',true)
+          })
           </script>
           <br><br>
           <!---Price range slider referenced https://jqueryui.com/slider/#range-->
@@ -393,8 +507,13 @@ select.dropdown-color {
           <div id="slider-range"></div>
           <br><br>
           <label class = "form_label">How would you like to sort the products?</label>
+          {% if old_sort == 'popularity' %}
+          <label clss = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" required>Rating</label>
+          <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" checked = "checked" required>Popularity</label>
+          {% else %}
           <label clss = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" checked = "checked" required>Rating</label>
           <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" required>Popularity</label>
+          {% endif %}
           <br><br><br>
           <button type="submit" class="btn btn-info">Search</button>
         </div>

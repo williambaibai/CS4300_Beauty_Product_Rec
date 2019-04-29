@@ -99,9 +99,9 @@ def search():
 	filtered_products_id = price_filter
 
 	if len(filtered_products_id) == 0:
-		return render_template('search.html', 
-			name=project_name, 
-			netid=net_id, 
+		return render_template('search.html',
+			name=project_name,
+			netid=net_id,
 			old_brand = xstr(brand),
 			old_category = xstr(category),
 			old_amount = xstr(price_range),
@@ -109,7 +109,7 @@ def search():
 			old_skin_type = xstr(skin_type),
 			old_sort = xstr(sort_option),
 			old_other = xstr(other),
-			output_message='No results for the selected Category and Brand, Please Try Again', 
+			output_message='No results for the selected Category and Brand, Please Try Again',
 			data=[])
 
 	# Use skin_concerns as query into the cosine sim search
@@ -165,9 +165,9 @@ def search():
 		'prod_id': prod_id
 	} for (prod_id, score) in result_ids]
 
-	return render_template('search.html', 
-		name=project_name, 
-		netid=net_id, 
+	return render_template('search.html',
+		name=project_name,
+		netid=net_id,
 		old_brand = xstr(brand),
 		old_category = xstr(category),
 		old_amount = xstr(price_range),
@@ -175,7 +175,7 @@ def search():
 		old_skin_type = xstr(skin_type),
 		old_sort = xstr(sort_option),
 		old_other = xstr(other),
-		output_message='Your Personalized Recommendation', 
+		output_message='Your Personalized Recommendation',
 		data=data)
 
 
