@@ -40,11 +40,12 @@ body {
   background-repeat: no-repeat;
   background-size: 100%,100%;
   background-attachment: fixed;
-  margin-left:5%;
-  margin-right:5%;
-  width:90%;
-  height:100%;
 }
+#main_body{
+  width: 1200px;
+  margin: 0 auto;
+}
+
 #project_name{
   text-align:center;
 }
@@ -82,6 +83,14 @@ select.dropdown, select.dropdown-color {
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 20%;
+}
+
+.global-search .form-control {
+  width:90%;
+}
+.global-search {
+  margin-left:5%;
+  width:90%;
 }
 
 select.dropdown-color {
@@ -240,6 +249,7 @@ select.dropdown-color {
           <select id = "brand" class = "dropdown" name = "brand">
             <option value = "all_brands" selected = "selected">All Brands</option>
           </select>
+        </div>
           <script>
           var brandList = {'AERIN': '7054','AMOREPACIFIC': '5945','Algenist': '6018','Alpha-H': '6283','Anthony': '4374',
          'Apivita': '6078','bareMinerals': '5737','BECCA': '5717','BIOEFFECT': '8014', 'BeautyBio': '6272','belif': '7075',
@@ -416,6 +426,7 @@ select.dropdown-color {
       <p>Student Name: ({{ netid }})</p>
       <div id = "productback" class = "hidden">
       </div>
+    </div>
     </body>
 
     </html>

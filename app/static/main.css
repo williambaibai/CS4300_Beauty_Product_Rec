@@ -5,18 +5,6 @@
 
 }
 @media (min-width:400px){
-  .global-search {
-    padding: 20px 0;
-  }
-  .global-search {
-    padding:10px;
-  }
-  .global-search .form-control {
-    width:80%;
-  }
-  .global-search * {
-    margin-bottom:0;
-  }
 }
 .btn{
   margin-left: 40%;
