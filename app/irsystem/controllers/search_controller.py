@@ -146,6 +146,10 @@ def search():
 
 	if sort_option == 'popularity':
 		result_ids = sort_by_popularity(result_ids)
+	elif sort_option == 'price_low_high':
+		result_ids = sort_by_price_low_high(result_ids)
+	elif sort_option == 'price_high_low':
+		results_ids = sort_by_price_high_low(result_ids)
 	else:
 		result_ids = sort_by_ratings(result_ids)
 
@@ -214,6 +218,12 @@ def sort_by_ratings(list):
 
 def sort_by_popularity(list):
 	return sorted(list, key=lambda pair: len(product_dict[pair[0]].reviews), reverse=True)
+
+def sort_by_price_low_high(list):
+	return sorted(list, key=lambda pair: product_dict[pair[0]].price)
+
+def sort_by_price_high_low(list):
+	return sorted(list, key=lambda pair: product_dict[pair[0]].price, reverse=True)
 
 # set string to empty string if string is None type
 def xstr(s):
