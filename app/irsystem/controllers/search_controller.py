@@ -12,6 +12,7 @@ net_id = "HaiYang Bai (hb388),\
 		  Joseph Kuo (jk2288),\
 		  Yue Gao (yg98),\
 		  Zidong Zheng (zz357)"
+prod_url_prefix = 'https://www.sephora.com/product/'
 
 """
 Class Represetning the information of a product
@@ -162,7 +163,9 @@ def search():
 		'rating': str(round(product_dict[prod_id].rating, 2)),
 		'description': product_dict[prod_id].description,
 		'sim_score': score,
-		'prod_id': prod_id
+		'prod_id': prod_id,
+		'prod_url': prod_url_prefix + prod_id,
+		'reviews': len(product_dict[prod_id].reviews)
 	} for (prod_id, score) in result_ids]
 
 	return render_template('search.html',
