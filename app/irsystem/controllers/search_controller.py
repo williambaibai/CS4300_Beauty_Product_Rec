@@ -110,7 +110,7 @@ def search():
 			old_skin_type = xstr(skin_type),
 			old_sort = xstr(sort_option),
 			old_other = xstr(other),
-			output_message='No results for the selected Category and Brand, Please Try Again',
+			output_message='No results for the selected inputs. Please try again',
 			data=[])
 
 	# Use skin_concerns as query into the cosine sim search
@@ -167,6 +167,8 @@ def search():
 		'prod_url': prod_url_prefix + prod_id,
 		'reviews': len(product_dict[prod_id].reviews)
 	} for (prod_id, score) in result_ids]
+	for idx in range(len(data)):
+		data[idx]['rank'] = idx + 1
 
 	return render_template('search.html',
 		name=project_name,

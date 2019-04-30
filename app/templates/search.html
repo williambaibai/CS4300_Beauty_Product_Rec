@@ -62,7 +62,7 @@
 </script>
 <style>
 body {
-  background-image:url("static/images/water_bubble.jpeg");
+  background-image:url("static/images/shishi.png");
   background-repeat: no-repeat;
   background-size: 100%,100%;
   background-attachment: fixed;
@@ -89,12 +89,7 @@ body {
 
 .concerns {
   width:24%;
-<<<<<<< HEAD
   flex:1;
-=======
-  display: inline-block;
-  margin-left:2px;
->>>>>>> 9601bcef834989e1d1913a0dea792bc0ef59b34e
 }
 
 .form_label{
@@ -134,7 +129,7 @@ select.dropdown, select.dropdown-color {
 }
 
 .form-group{
-  background-color: rgba(255,255,255,0.9);
+  background-color: rgba(255,255,255,0);
   width:100%;
 }
 
@@ -167,8 +162,8 @@ select.dropdown-color {
 .detail{
   position: fixed;
   top: 20%;
-  left: 20%;
-  width: 60%;
+  left: 240px;
+  width: 720px;
   height: 60%;
   padding: 20px;
   background-color: white;
@@ -182,12 +177,15 @@ select.dropdown-color {
   margin-left:20%;
 }
 
+.image_button{
+  float:left;
+  width: 140px;
+  height: 35%;
+}
+
 .detailImage{
   margin-top:2%;
   margin-left:2%;
-  width:auto;
-  height:30%;
-  float:left;
 }
 
 .upper_detail{
@@ -200,7 +198,7 @@ select.dropdown-color {
 .lower_detail{
   width:96%;
   position: absolute;
-  top:40%;
+  top:50%;
   left:2%;
 }
 .close_button{
@@ -234,14 +232,61 @@ select.dropdown-color {
   font-family: sans-serif;
   width: 23%;
   margin-left: 2%;
-  height: 290px;
+  height: 300px;
   float:left;
   margin-top: 20px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 #slider-range{
   width:80%;
   margin-left:10%;
+}
+
+.btn{
+  margin-left: 40%;
+  width:20%;
+  text-align: center;
+  background-color: #F9DA7F;
+  border: none;
+  color: black;
+}
+
+.btn:hover{
+  background-color: #DBD2E3;
+  color: black;
+}
+
+a.asButton {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    background-color: #4285F4;
+
+    text-decoration: none;
+    width: 100%;
+    text-align: center;
+    font-family: lobster;
+}
+
+#amount{
+  background-color: #E2E1DF;
+}
+
+.ui-slider-header{
+  background-color: black;
+}
+
+.ui-slider-handle{
+  background-color: black;
+}
+
+.rank_space{
+  text-align: center;
+  border-bottom: 1px solid #c6c6c6;
+  margin-bottom: 5px;
 }
 </style>
 </head>
@@ -376,17 +421,18 @@ select.dropdown-color {
           <br>
           <label class = "form_label" for = "other_concern">Skin Concerns</label><input type = "text" id = "other_concern" name = "other_concern" placeholder="Enter your skin concerns or/and what you look for in a product separated by commas" value = "{{old_other}}"/>
           <script>
-          var keywords =  new Bloodhound({
+          /* var keywords =  new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             prefetch: {
                         url: 'static/word_suggestions.json'
                       }
           })
+
           keywords.initialize();
                     $('#other_concern').tagsinput({
                         typeaheadjs: {
-                            name: 'keywords_list',
+                            name: 'keywords',
                             displayKey: 'name',
                             valueKey: 'name',
                             source: keywords.ttAdapter(),
@@ -395,12 +441,13 @@ select.dropdown-color {
                         confirmKeys: [13, 44],
                         maxTags: 3,
                         freeInput: false,
-                        delimiter: ';'
+                        delimiter: ','
                     });
+                    */
           </script>
           <br>
-          <label class = "form_label">If You Don't Know What to Enter, Check the Suggestions Below:</label>
           <br>
+          <label class = "form_label">If You Don't Know What to Enter, Check the Suggestions Below:</label>
           <br>
 
           <div id = "checkboxes">
@@ -491,7 +538,7 @@ select.dropdown-color {
 
           });
 
-
+          {% if old_skin_concern %}
           var old_concern = '{{old_skin_concern}}'
           old_concern = old_concern.replace('[','');
           old_concern = old_concern.replace(']','');
@@ -502,6 +549,7 @@ select.dropdown-color {
           old_concern.forEach(concern =>{
             d3.select("#"+concern).property('checked',true)
           })
+          {% endif %}
           </script>
           <br><br>
           <!---Price range slider referenced https://jqueryui.com/slider/#range-->
@@ -511,13 +559,27 @@ select.dropdown-color {
           </p>
           <div id="slider-range"></div>
           <br><br>
-          <label class = "form_label">How would you like to sort the products?</label>
+          <label class = "form_label">How would you like to sort the products?</label><br>
           {% if old_sort == 'popularity' %}
-          <label clss = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" required>Rating</label>
+          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" required>Rating</label>
           <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" checked = "checked" required>Popularity</label>
-          {% else %}
-          <label clss = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" checked = "checked" required>Rating</label>
+          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_LtoH" name = "sort" value ="LtoH" required>Price(Low to High)</label>
+          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_HtoL" name = "sort" value ="HtoL" required>Price(High to Low)</label>
+          {% elif old_sort == 'HtoL' %}
+          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" required>Rating</label>
           <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" required>Popularity</label>
+          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_LtoH" name = "sort" value ="LtoH" required>Price(Low to High)</label>
+          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_HtoL" name = "sort" value ="HtoL" checked = "checked" required>Price(High to Low)</label>
+          {% elif old_sort == 'LtoH' %}
+          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" required>Rating</label>
+          <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" required>Popularity</label>
+          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_LtoH" name = "sort" value ="LtoH" checked = "checked" required>Price(Low to High)</label>
+          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_HtoL" name = "sort" value ="HtoL"  required>Price(High to Low)</label>
+          {% else %}
+          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" checked = "checked" required>Rating</label>
+          <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" required>Popularity</label>
+          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_LtoH" name = "sort" value ="LtoH" required>Price(Low to High)</label>
+          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_HtoL" name = "sort" value ="HtoL"  required>Price(High to Low)</label>
           {% endif %}
           <br><br><br>
           <button type="submit" class="btn btn-info">Search</button>
@@ -530,22 +592,28 @@ select.dropdown-color {
           <br><br>
           {% for d in data %}
           <div class = "product">
+            <div class = "rank_space">
+              <p>No.{{d['rank']}}</p>
+            </div>
             <div class = "image_container">
               <a href = "javascript:void(0)" onclick = "showdetail('{{d['prod_id']}}')"><img class="productImage" src = "{{d['image']}}" alt='productImage'/></a>
             </div>
             <br>
             <center><a class = "prod_info" href = "javascript:void(0)" onclick = "showdetail('{{d['prod_id']}}')">{{d['brand']}}: {{d['name']}}</a></center>
-            <p class = "prod_info">${{d['price']}}</p>
-            <p class = "prod_info">Avg rating: {{d['rating']}}</p>
+            <p class = "prod_info">${{d['price']}}<br>
+            Avg rating: {{d['rating']}} ({{d['reviews']}})</p>
 
           </div>
           <div class = "detail hidden" id = "{{d['prod_id']}}">
+            <div class = "image_button">
             <img class = "detailImage" src = "{{d['image']}}" alt='productImage'/>
+            <a href = "{{d['prod_url']}}" class = "asButton">View on Sephora</a>
+            </div>
             <a href = "javascript:void(0)" onclick = "closedetail('{{d['prod_id']}}')"><img class = "close_button" src = "static/images/close.png" alt='productImage'/></a>
             <div class = "upper_detail">
               <p style="font-size: 20px; font-family:lobster">{{d['brand']}}: {{d['name']}}</p>
               <p style="font-size: 20px; font-family:lobster">${{d['price']}}</p>
-              <p style="font-size: 20px; font-family:lobster">Avg rating: {{d['rating']}}</p>
+              <p style="font-size: 20px; font-family:lobster">Avg rating: {{d['rating']}} ({{d['reviews']}} Reviews)</p>
               <p style="font-size: 20px; font-family:lobster">Similarity Score: {{d['sim_score']}}</p>
             </div>
             <div class = "lower_detail">
