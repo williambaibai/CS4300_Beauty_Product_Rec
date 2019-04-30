@@ -8,9 +8,6 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-  <script type="text/javascript" src="static/typeahead.bundle.js"></script>
-  <link rel="stylesheet" href="/static/bootstrap-tagsinput-master/dist/bootstrap-tagsinput.css"/>
-  <script src="/static/bootstrap-tagsinput-master/dist/bootstrap-tagsinput.js"></script>
   <script>
   function showdetail(id){
     document.getElementById(id).classList.remove("hidden");
@@ -20,16 +17,22 @@
     document.getElementById(id).classList.add("hidden");
     document.getElementById('productback').classList.add("hidden");
   }
+  function openreview(id){
+    document.getElementById(id+"review").classList.remove("review_hidden");
+  }
+  function closereview(id){
+    document.getElementById(id+"review").classList.add("review_hidden");
+  }
 </script>
 <script>
-  {% if old_amount %}
-  var p_range = '{{old_amount}}'
-  var dash_idx = p_range.indexOf("-")
-  var low_end = dash_idx - 1
-  var high_start = dash_idx + 3
-  var low_p = p_range.substr(1 , low_end)
-  var high_p = p_range.substr(high_start ,)
-  $(function() {
+{% if old_amount %}
+var p_range = '{{old_amount}}'
+var dash_idx = p_range.indexOf("-")
+var low_end = dash_idx - 1
+var high_start = dash_idx + 3
+var low_p = p_range.substr(1 , low_end)
+var high_p = p_range.substr(high_start ,)
+$(function() {
   $( "#slider-range" ).slider({
     range: true,
     min: 0,
@@ -43,8 +46,8 @@
   " - $" + $( "#slider-range" ).slider( "values", 1 ) );
 });
 
-  {% else %}
-  $(function() {
+{% else %}
+$(function() {
   $( "#slider-range" ).slider({
     range: true,
     min: 0,
@@ -60,235 +63,6 @@
 });
 {% endif %}
 </script>
-<style>
-body {
-  background-image:url("static/images/shishi.png");
-  background-repeat: no-repeat;
-  background-size: 100%,100%;
-  background-attachment: fixed;
-}
-#main_body{
-  width: 1200px;
-  margin: 0 auto;
-}
-
-#project_name{
-  text-align:center;
-}
-
-.concern_space{
-  margin-left:10px;
-  width:100%;
-  margin-top:5px;
-  font-size: 15px;
-}
-
-#checkboxes{
-  display: flex;
-}
-
-.concerns {
-  width:24%;
-  flex:1;
-}
-
-.form_label{
-  font-size:18px;
-}
-
-/* -------------------- Select Box Styles: stackoverflow.com Method */
-/* -------------------- Source: http://stackoverflow.com/a/5809186 */
-/* -------------------- Arrow pic url: http://i62.tinypic.com/15xvbd5.png */
-select.dropdown, select.dropdown-color {
-  -webkit-appearance: button;
-  -webkit-border-radius: 2px;
-  -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-  -webkit-padding-end: 20px;
-  -webkit-padding-start: 2px;
-  -webkit-user-select: none;
-  background-image: url(static/images/arrow.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
-  background-position: 97% center;
-  background-repeat: no-repeat;
-  border: 1px solid #AAA;
-  color: #555;
-  font-size: inherit;
-  margin: 1.5%;
-  overflow: hidden;
-  padding: 5px 10px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 20%;
-}
-
-.global-search .form-control {
-  width:90%;
-}
-.global-search {
-  margin-left:5%;
-  width:90%;
-}
-
-.form-group{
-  background-color: rgba(255,255,255,0);
-  width:100%;
-}
-
-select.dropdown-color {
-  color: #fff;
-  background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#779126, #779126 40%, #779126);
-  background-color: #779126;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  padding-left: 15px;
-}
-
-#productback{
-  position: fixed;
-  top: 0%;
-  left: 0%;
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  z-index:1001;
-  opacity:.8;
-  transition: all 0.3s ease;
-}
-
-.hidden{
-  display:none;
-}
-
-.detail{
-  position: fixed;
-  top: 20%;
-  left: 240px;
-  width: 720px;
-  height: 60%;
-  padding: 20px;
-  background-color: white;
-  z-index:1002;
-  overflow: auto;
-}
-
-.productImage{
-  display:block;
-  width:60%;
-  margin-left:20%;
-}
-
-.image_button{
-  float:left;
-  width: 140px;
-  height: 35%;
-}
-
-.detailImage{
-  margin-top:2%;
-  margin-left:2%;
-}
-
-.upper_detail{
-  width:70%;
-  position: absolute;
-  left:25%;
-  top:2%;
-}
-
-.lower_detail{
-  width:96%;
-  position: absolute;
-  top:50%;
-  left:2%;
-}
-.close_button{
-  width:20px;
-  height:20px;
-  position: absolute;
-  top:5px;
-  right:5px;
-}
-#other_concern{
-  width: 80%;
-  margin-left: 2%;
-  margin-bottom: 10px;
-}
-.sort_space{
-  width:15%;
-  margin-left:20px;
-}
-
-.image_container:hover{
-  opacity:0.7;
-}
-.prod_info{
-  text-align:center;
-  font-family:lobster;
-  font-size:15px;
-}
-.product{
-  display: inline-block;
-  font-size: 15px;
-  font-family: sans-serif;
-  width: 23%;
-  margin-left: 2%;
-  height: 300px;
-  float:left;
-  margin-top: 20px;
-  background-color: white;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-#slider-range{
-  width:80%;
-  margin-left:10%;
-}
-
-.btn{
-  margin-left: 40%;
-  width:20%;
-  text-align: center;
-  background-color: #F9DA7F;
-  border: none;
-  color: black;
-}
-
-.btn:hover{
-  background-color: #DBD2E3;
-  color: black;
-}
-
-a.asButton {
-    -webkit-appearance: button;
-    -moz-appearance: button;
-    appearance: button;
-    background-color: #4285F4;
-
-    text-decoration: none;
-    width: 100%;
-    text-align: center;
-    font-family: lobster;
-}
-
-#amount{
-  background-color: #E2E1DF;
-}
-
-.ui-slider-header{
-  background-color: black;
-}
-
-.ui-slider-handle{
-  background-color: black;
-}
-
-.rank_space{
-  text-align: center;
-  border-bottom: 1px solid #c6c6c6;
-  margin-bottom: 5px;
-}
-</style>
 </head>
 <body>
   <div id = "main_body">
@@ -361,276 +135,275 @@ a.asButton {
             <option value = "all_brands" id = "all_brands" selected = "selected">All Brands</option>
           </select>
           <div>
-          <script>
-          var brandList = {'AERIN': '7054','AMOREPACIFIC': '5945','Algenist': '6018','Alpha-H': '6283','Anthony': '4374',
-         'Apivita': '6078','bareMinerals': '5737','BECCA': '5717','BIOEFFECT': '8014', 'BeautyBio': '6272','belif': '7075',
-         'Biossance': '6195','Bite Beauty': '6010','Black Up': '6127','Bobbi Brown': '5644','boscia': '5729','Briogeo': '7057',
-         'Buxom': '5984','CLINIQUE': '1254','COOLA': '7091','COVER FX': '5880','Caudalie': '4171','Charlotte Tilbury': '6236',
-         'Clarins': '2082','Clarisonic': '5830','DERMAdoctor': '5762','Dermalogica': '6219','Dior': '1073',"Dr Roebuck's": '6186',
-         'Dr. Brandt Skincare': '4372','Dr. Dennis Gross Skincare': '5668','Dr. Jart+': '6014','Drunk Elephant': '7083','Edible Beauty': '6239',
-         'Erborian': '7082','Erno Laszlo': '7081','Estée Lauder': '6089', 'Eve Lom': '4141', 'FARSÁLI': '6198',
-         'FENTY BEAUTY by Rihanna': '6200', 'Farmacy': '8001', 'First Aid Beauty': '5972', 'Flora + Bast': '6274',
-         'Foreo': '7037','Fresh': '4348','GLAMGLOW': '6090','GLO Science': '5996','Giorgio Armani Beauty': '1517',
-         'Givenchy': '1133','Glow Recipe': '6189','Go-To': '8011','Grande Cosmetics': '6151','Guerlain': '1132',
-         'HUM Nutrition': '7050','Herbivore': '6117','Hourglass': '5879','ILIA': '6156','INC.redible': '6235',
-         'IT Cosmetics': '6175', 'Indie Lee': '8006', "It's Skin": '6118', 'J.One': '6165', 'Jack Black': '3297',
-         'Josie Maran': '5922','Jouer Cosmetics': '6254','KENZOKI': '5750','KORA Organics': '6207','KORRES': '5715',
-         'Kaja': '6255', 'Kate Somerville': '5946', "Kiehl's Since 1851": '6218', 'Klorane': '5911', 'Koh Gen Do': '6029',
-         'Kopari': '6188', "L'Occitane": '2366','LANEIGE': '6125','La Mer': '6201','Lancer': '7093',
-         'Lancôme': '1741','Laura Mercier': '5809','LightStim': '6243','lilah b.': '6216','MAKE UP FOR EVER': '4028',
-         'MDSolarSciences': '7032','MILK MAKEUP': '6134', 'Makeup Eraser': '8000', 'Marc Jacobs Beauty': '7022',
-         'Mario Badescu': '8017','Moon Juice': '6226','Moroccanoil': '6182','Murad': '4164','NARS': '3976',
-         'Naturally Serious': '8012','Neogen Dermalogy': '6168','NuFACE': '6001','OLEHENRIKSEN': '5674','Obagi Clinical': '8016',
-         'Omorovicza': '6046','Origins': '3733','PAT McGRATH LABS': '6160','PMD': '6114','Peace Out': '6209',
-         'Perricone MD': '4180','Peter Thomas Roth': '3728','philosophy': '3866', 'Pretty Vulgar': '6206', 'Private Doctor': '6271',
-         'Proactiv': '8018', 'REN Clean Skincare': '5857', 'rms beauty': '6166', 'RODIN olio lusso': '6282','Rosebud Perfume Co.': '5671',
-         'SEPHORA COLLECTION': '3902', 'SK-II': '6084','SUNDAY RILEY': '6073','Sand & Sky': '6268','Saturday Skin': '6229',
-         'Shiseido': '5337','Skin Inc Supplement Bar': '7067','Skin Laundry': '6187','Skinfix': '6289','Smashbox': '3990',
-         'Sol de Janeiro': '6145','Summer Fridays': '6247','Supergoop!': '5987','tarte': '5648','TOM FORD': '5869',
-         'Tata Harper': '7020', 'Tatcha': '6041', 'The Ordinary': '6234', 'Too Cool For School': '6113', 'Too Faced': '4225',
-         'trèStiQue': '6190', 'Urban Decay': '3806', 'Volition Beauty': '6208', 'Wander Beauty': '6149', 'Winky Lux': '6257',
-         'Youth To The People': '6169','Yves Saint Laurent': '1070'}
+            <script>
+            var brandList = {'AERIN': '7054','AMOREPACIFIC': '5945','Algenist': '6018','Alpha-H': '6283','Anthony': '4374',
+            'Apivita': '6078','bareMinerals': '5737','BECCA': '5717','BIOEFFECT': '8014', 'BeautyBio': '6272','belif': '7075',
+            'Biossance': '6195','Bite Beauty': '6010','Black Up': '6127','Bobbi Brown': '5644','boscia': '5729','Briogeo': '7057',
+            'Buxom': '5984','CLINIQUE': '1254','COOLA': '7091','COVER FX': '5880','Caudalie': '4171','Charlotte Tilbury': '6236',
+            'Clarins': '2082','Clarisonic': '5830','DERMAdoctor': '5762','Dermalogica': '6219','Dior': '1073',"Dr Roebuck's": '6186',
+            'Dr. Brandt Skincare': '4372','Dr. Dennis Gross Skincare': '5668','Dr. Jart+': '6014','Drunk Elephant': '7083','Edible Beauty': '6239',
+            'Erborian': '7082','Erno Laszlo': '7081','Estée Lauder': '6089', 'Eve Lom': '4141', 'FARSÁLI': '6198',
+            'FENTY BEAUTY by Rihanna': '6200', 'Farmacy': '8001', 'First Aid Beauty': '5972', 'Flora + Bast': '6274',
+            'Foreo': '7037','Fresh': '4348','GLAMGLOW': '6090','GLO Science': '5996','Giorgio Armani Beauty': '1517',
+            'Givenchy': '1133','Glow Recipe': '6189','Go-To': '8011','Grande Cosmetics': '6151','Guerlain': '1132',
+            'HUM Nutrition': '7050','Herbivore': '6117','Hourglass': '5879','ILIA': '6156','INC.redible': '6235',
+            'IT Cosmetics': '6175', 'Indie Lee': '8006', "It's Skin": '6118', 'J.One': '6165', 'Jack Black': '3297',
+            'Josie Maran': '5922','Jouer Cosmetics': '6254','KENZOKI': '5750','KORA Organics': '6207','KORRES': '5715',
+            'Kaja': '6255', 'Kate Somerville': '5946', "Kiehl's Since 1851": '6218', 'Klorane': '5911', 'Koh Gen Do': '6029',
+            'Kopari': '6188', "L'Occitane": '2366','LANEIGE': '6125','La Mer': '6201','Lancer': '7093',
+            'Lancôme': '1741','Laura Mercier': '5809','LightStim': '6243','lilah b.': '6216','MAKE UP FOR EVER': '4028',
+            'MDSolarSciences': '7032','MILK MAKEUP': '6134', 'Makeup Eraser': '8000', 'Marc Jacobs Beauty': '7022',
+            'Mario Badescu': '8017','Moon Juice': '6226','Moroccanoil': '6182','Murad': '4164','NARS': '3976',
+            'Naturally Serious': '8012','Neogen Dermalogy': '6168','NuFACE': '6001','OLEHENRIKSEN': '5674','Obagi Clinical': '8016',
+            'Omorovicza': '6046','Origins': '3733','PAT McGRATH LABS': '6160','PMD': '6114','Peace Out': '6209',
+            'Perricone MD': '4180','Peter Thomas Roth': '3728','philosophy': '3866', 'Pretty Vulgar': '6206', 'Private Doctor': '6271',
+            'Proactiv': '8018', 'REN Clean Skincare': '5857', 'rms beauty': '6166', 'RODIN olio lusso': '6282','Rosebud Perfume Co.': '5671',
+            'SEPHORA COLLECTION': '3902', 'SK-II': '6084','SUNDAY RILEY': '6073','Sand & Sky': '6268','Saturday Skin': '6229',
+            'Shiseido': '5337','Skin Inc Supplement Bar': '7067','Skin Laundry': '6187','Skinfix': '6289','Smashbox': '3990',
+            'Sol de Janeiro': '6145','Summer Fridays': '6247','Supergoop!': '5987','tarte': '5648','TOM FORD': '5869',
+            'Tata Harper': '7020', 'Tatcha': '6041', 'The Ordinary': '6234', 'Too Cool For School': '6113', 'Too Faced': '4225',
+            'trèStiQue': '6190', 'Urban Decay': '3806', 'Volition Beauty': '6208', 'Wander Beauty': '6149', 'Winky Lux': '6257',
+            'Youth To The People': '6169','Yves Saint Laurent': '1070'}
 
 
-          const brandSelect = d3.select("select#brand")
-          var options = brandSelect.selectAll("options")
-          .data(Object.keys(brandList))
-          .enter()
-          .append("option");
+            const brandSelect = d3.select("select#brand")
+            var options = brandSelect.selectAll("options")
+            .data(Object.keys(brandList))
+            .enter()
+            .append("option");
 
-          options.text(function(d) {
-            return d;
-          })
-          .attr("value", function(d) {
-            return brandList[d];
-          })
-          .attr("id",function(d){
-            return "brand"+brandList[d];
-          });
+            options.text(function(d) {
+              return d;
+            })
+            .attr("value", function(d) {
+              return brandList[d];
+            })
+            .attr("id",function(d){
+              return "brand"+brandList[d];
+            });
 
-          d3.select("#all_brands").attr("selected","selected")
-          Object.keys(brandList).forEach(brand =>{
-            if(brandList[brand] === '{{old_brand}}'){
-              d3.select("#all_brands").attr("selected",null)
-              d3.select("#brand"+brandList[brand]).attr("selected","selected")
-            }else{
-              d3.select("#brand"+brandList[brand]).attr("selected",null)
-            }
-          })
-          </script>
-          <br>
-          <label class = "form_label" for = "other_concern">Skin Concerns</label><input type = "text" id = "other_concern" name = "other_concern" placeholder="Enter your skin concerns or/and what you look for in a product separated by commas" value = "{{old_other}}"/>
-          <script>
-          /* var keywords =  new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            prefetch: {
-                        url: 'static/word_suggestions.json'
-                      }
-          })
-
-          keywords.initialize();
-                    $('#other_concern').tagsinput({
-                        typeaheadjs: {
-                            name: 'keywords',
-                            displayKey: 'name',
-                            valueKey: 'name',
-                            source: keywords.ttAdapter(),
-                            hint: true,
-                        },
-                        confirmKeys: [13, 44],
-                        maxTags: 3,
-                        freeInput: false,
-                        delimiter: ','
-                    });
-                    */
-          </script>
-          <br>
-          <br>
-          <label class = "form_label">If You Don't Know What to Enter, Check the Suggestions Below:</label>
-          <br>
-
-          <div id = "checkboxes">
-          <div class='concerns'>
-          <label class = "form_label">Effects: </label>
-          <br>
-          <label class = "concern_space" for = "skin_concern8"><input type = "checkbox" class = "checks" id = "brightening" name="skin_concern" value="brightening" required>Brightening</label>
-          <label class = "concern_space" for = "skin_concern10"><input type = "checkbox" class = "checks" id = "exfoliating" name="skin_concern" value="exfoliating" required>Exfoliating</label>
-          <label class = "concern_space" for = "skin_concern1"><input type = "checkbox" class = "checks" id = "hydrating" name="skin_concern" value="hydrating" required>Hydrating</label>
-          <label class = "concern_space" for = "skin_concern7"><input type = "checkbox" class = "checks" id = "smoothing" name="skin_concern" value="smoothing" required>Smoothing</label>
-          <label class = "concern_space" for = "skin_concern9"><input type = "checkbox" class = "checks" id = "whitening" name="skin_concern" value="whitening" required>Whitening</label>
-          <label class = "concern_space" for = "skin_concern18"><input type = "checkbox" class = "checks" id = "refreshing" name="skin_concern" value="refreshing" required>Refreshing</label>
-          </div>
-
-          <div class='concerns'>
-          <label class = "form_label">Problems: </label>
-          <br>
-          <label class = "concern_space" for = "skin_concern2"><input type = "checkbox" class = "checks" id = "acne" name="skin_concern" value="acne" required>Acne</label>
-          <label class = "concern_space" for = "skin_concern4"><input type = "checkbox" class = "checks" id = "blackheads" name="skin_concern" value="blackheads" required>Blackheads</label>
-          <label class = "concern_space" for = "skin_concern12"><input type = "checkbox" class = "checks" id = "dark_spot" name="skin_concern" value="dark_spot" required>Dark Spot</label>
-          <label class = "concern_space" for = "skin_concern5"><input type = "checkbox" class = "checks" id = "sensitivity" name="skin_concern" value="sensitivity" required>Sensitivity</label>
-          <label class = "concern_space" for = "skin_concern6"><input type = "checkbox" class = "checks" id = "pores" name="skin_concern" value="pores" required>Pores</label>
-          <label class = "concern_space" for = "skin_concern11"><input type = "checkbox" class = "checks" id = "wrinkle" name="skin_concern" value="wrinkle" required>Wrinkle</label>
-          </div>
-
-          <div class='concerns'>
-          <label class = "form_label">Texture: </label>
-          <br>
-          <label class = "concern_space" for = "skin_concern27"><input type = "checkbox" class = "checks" id = "foamy" name="skin_concern" value="foamy" required>Foamy</label>
-          <label class = "concern_space" for = "skin_concern13"><input type = "checkbox" class = "checks" id = "lightweight" name="skin_concern" value="lightweight" required>Lightweight</label>
-          <label class = "concern_space" for = "skin_concern25"><input type = "checkbox" class = "checks" id = "milky" name="skin_concern" value="milky" required>Milky</label>
-          <label class = "concern_space" for = "skin_concern15"><input type = "checkbox" class = "checks" id = "non-greasy" name="skin_concern" value="non-greasy" required>Non-greasy</label>
-          </div>
-
-          <div class='concerns'>
-          <label class = "form_label">Feature: </label>
-          <br>
-          <label class = "concern_space" for = "skin_concern26"><input type = "checkbox" class = "checks" id = "gentle" name="skin_concern" value="gentle" required>Gentle</label>
-          <label class = "concern_space" for = "skin_concern29"><input type = "checkbox" class = "checks" id = "long-lasting" name="skin_concern" value="long-lasting" required>Long-lasting</label>
-          <label class = "concern_space" for = "skin_concern16"><input type = "checkbox" class = "checks" id = "natural" name="skin_concern" value="natural" required>Natural</label>
-          <label class = "concern_space" for = "skin_concern28"><input type = "checkbox" class = "checks" id = "portable" name="skin_concern" value="portable" required>Portable</label>
-          <label class = "concern_space" for = "skin_concern21"><input type = "checkbox" class = "checks" id = "scented" name="skin_concern" value="scented" required>Scented</label>
-          <label class = "concern_space" for = "skin_concern30"><input type = "checkbox" class = "checks" id = "waterproof" name="skin_concern" value="waterproof" required>Waterproof</label>
-          </div>
-        </div>
-
-
-
-          <script>
-
-          $(function(){
-            var requiredCheckboxes = $(':checkbox[required]');
-            var otherConcern = $('#other_concern');
-            {% if old_skin_concern or old_other %}
-            requiredCheckboxes.removeAttr('required')
-
-            {% else %}
-            otherConcern.change(function(){
-              if(otherConcern != ""){
-                requiredCheckboxes.removeAttr('required');
+            d3.select("#all_brands").attr("selected","selected")
+            Object.keys(brandList).forEach(brand =>{
+              if(brandList[brand] === '{{old_brand}}'){
+                d3.select("#all_brands").attr("selected",null)
+                d3.select("#brand"+brandList[brand]).attr("selected","selected")
               }else{
-                requiredCheckboxes.attr('required','required')
-                requiredCheckboxes.change(function(){
-                  if(requiredCheckboxes.is(':checked')) {
-                    requiredCheckboxes.removeAttr('required');
-                  }else {
-                    requiredCheckboxes.attr('required', 'required');
-                  }
-                });
+                d3.select("#brand"+brandList[brand]).attr("selected",null)
               }
+            })
+            </script>
+            <br>
+            <label class = "form_label" for = "other_concern">Skin Concerns</label><input type = "text" id = "other_concern" name = "other_concern" placeholder="Enter your skin concerns or/and what you look for in a product separated by commas" value = "{{old_other}}"/>
+
+            <br>
+            <br>
+            <label class = "form_label">If You Don't Know What to Enter, Check the Suggestions Below:</label>
+            <br>
+
+            <div id = "checkboxes">
+              <div class='concerns'>
+                <label class = "form_label">Effects: </label>
+                <br>
+                <label class = "concern_space" for = "skin_concern8"><input type = "checkbox" class = "checks" id = "brightening" name="skin_concern" value="brightening" required>Brightening</label>
+                <label class = "concern_space" for = "skin_concern10"><input type = "checkbox" class = "checks" id = "exfoliating" name="skin_concern" value="exfoliating" required>Exfoliating</label>
+                <label class = "concern_space" for = "skin_concern1"><input type = "checkbox" class = "checks" id = "hydrating" name="skin_concern" value="hydrating" required>Hydrating</label>
+                <label class = "concern_space" for = "skin_concern7"><input type = "checkbox" class = "checks" id = "smoothing" name="skin_concern" value="smoothing" required>Smoothing</label>
+                <label class = "concern_space" for = "skin_concern9"><input type = "checkbox" class = "checks" id = "whitening" name="skin_concern" value="whitening" required>Whitening</label>
+                <label class = "concern_space" for = "skin_concern18"><input type = "checkbox" class = "checks" id = "refreshing" name="skin_concern" value="refreshing" required>Refreshing</label>
+              </div>
+
+              <div class='concerns'>
+                <label class = "form_label">Problems: </label>
+                <br>
+                <label class = "concern_space" for = "skin_concern2"><input type = "checkbox" class = "checks" id = "acne" name="skin_concern" value="acne" required>Acne</label>
+                <label class = "concern_space" for = "skin_concern4"><input type = "checkbox" class = "checks" id = "blackheads" name="skin_concern" value="blackheads" required>Blackheads</label>
+                <label class = "concern_space" for = "skin_concern12"><input type = "checkbox" class = "checks" id = "dark_spot" name="skin_concern" value="dark_spot" required>Dark Spot</label>
+                <label class = "concern_space" for = "skin_concern5"><input type = "checkbox" class = "checks" id = "sensitivity" name="skin_concern" value="sensitivity" required>Sensitivity</label>
+                <label class = "concern_space" for = "skin_concern6"><input type = "checkbox" class = "checks" id = "pores" name="skin_concern" value="pores" required>Pores</label>
+                <label class = "concern_space" for = "skin_concern11"><input type = "checkbox" class = "checks" id = "wrinkle" name="skin_concern" value="wrinkle" required>Wrinkle</label>
+              </div>
+
+              <div class='concerns'>
+                <label class = "form_label">Texture: </label>
+                <br>
+                <label class = "concern_space" for = "skin_concern27"><input type = "checkbox" class = "checks" id = "foamy" name="skin_concern" value="foamy" required>Foamy</label>
+                <label class = "concern_space" for = "skin_concern13"><input type = "checkbox" class = "checks" id = "lightweight" name="skin_concern" value="lightweight" required>Lightweight</label>
+                <label class = "concern_space" for = "skin_concern25"><input type = "checkbox" class = "checks" id = "milky" name="skin_concern" value="milky" required>Milky</label>
+                <label class = "concern_space" for = "skin_concern15"><input type = "checkbox" class = "checks" id = "non-greasy" name="skin_concern" value="non-greasy" required>Non-greasy</label>
+              </div>
+
+              <div class='concerns'>
+                <label class = "form_label">Feature: </label>
+                <br>
+                <label class = "concern_space" for = "skin_concern26"><input type = "checkbox" class = "checks" id = "gentle" name="skin_concern" value="gentle" required>Gentle</label>
+                <label class = "concern_space" for = "skin_concern29"><input type = "checkbox" class = "checks" id = "long-lasting" name="skin_concern" value="long-lasting" required>Long-lasting</label>
+                <label class = "concern_space" for = "skin_concern16"><input type = "checkbox" class = "checks" id = "natural" name="skin_concern" value="natural" required>Natural</label>
+                <label class = "concern_space" for = "skin_concern28"><input type = "checkbox" class = "checks" id = "portable" name="skin_concern" value="portable" required>Portable</label>
+                <label class = "concern_space" for = "skin_concern21"><input type = "checkbox" class = "checks" id = "scented" name="skin_concern" value="scented" required>Scented</label>
+                <label class = "concern_space" for = "skin_concern30"><input type = "checkbox" class = "checks" id = "waterproof" name="skin_concern" value="waterproof" required>Waterproof</label>
+              </div>
+            </div>
+
+
+
+            <script>
+
+            $(function(){
+              var requiredCheckboxes = $(':checkbox[required]');
+              var otherConcern = $('#other_concern');
+              {% if old_skin_concern or old_other %}
+              requiredCheckboxes.removeAttr('required')
+
+              {% else %}
+              otherConcern.change(function(){
+                if(otherConcern != ""){
+                  requiredCheckboxes.removeAttr('required');
+                }else{
+                  requiredCheckboxes.attr('required','required')
+                  requiredCheckboxes.change(function(){
+                    if(requiredCheckboxes.is(':checked')) {
+                      requiredCheckboxes.removeAttr('required');
+                    }else {
+                      requiredCheckboxes.attr('required', 'required');
+                    }
+                  });
+                }
+
+              });
+
+              requiredCheckboxes.change(function(){
+                if(requiredCheckboxes.is(':checked')){
+                  requiredCheckboxes.removeAttr('required');
+                }else{
+                  otherConcern.change(function(){
+                    if (otherConcern != ""){
+                      requiredCheckboxes.removeAttr('required')
+                    }else{
+                      requiredCheckboxes.attr('required','required');
+                    }
+                  })
+                }
+              })
+              {% endif %}
 
             });
 
-            requiredCheckboxes.change(function(){
-              if(requiredCheckboxes.is(':checked')){
-                requiredCheckboxes.removeAttr('required');
-              }else{
-                otherConcern.change(function(){
-                  if (otherConcern != ""){
-                    requiredCheckboxes.removeAttr('required')
-                  }else{
-                    requiredCheckboxes.attr('required','required');
-                  }
-                })
-              }
+            {% if old_skin_concern %}
+            var old_concern = '{{old_skin_concern}}'
+            old_concern = old_concern.replace('[','');
+            old_concern = old_concern.replace(']','');
+            old_concern = old_concern.replace(/&#39;/g, '')
+            old_concern = old_concern.replace(/ /g,'')
+            old_concern = old_concern.split(',')
+            d3.selectAll('.checks').property('checked',false)
+            old_concern.forEach(concern =>{
+              d3.select("#"+concern).property('checked',true)
             })
             {% endif %}
-
-          });
-
-          {% if old_skin_concern %}
-          var old_concern = '{{old_skin_concern}}'
-          old_concern = old_concern.replace('[','');
-          old_concern = old_concern.replace(']','');
-          old_concern = old_concern.replace(/&#39;/g, '')
-          old_concern = old_concern.replace(/ /g,'')
-          old_concern = old_concern.split(',')
-          d3.selectAll('.checks').property('checked',false)
-          old_concern.forEach(concern =>{
-            d3.select("#"+concern).property('checked',true)
-          })
-          {% endif %}
-          </script>
-          <br><br>
-          <!---Price range slider referenced https://jqueryui.com/slider/#range-->
-          <p>
-            <label for="amount" class = "form_label">Price range:</label>
-            <input type="text" id="amount" name = "amount" style="border:0; color:#f6931f; font-weight:bold;">
-          </p>
-          <div id="slider-range"></div>
-          <br><br>
-          <label class = "form_label">How would you like to sort the products?</label><br>
-          {% if old_sort == 'popularity' %}
-          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" required>Rating</label>
-          <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" checked = "checked" required>Popularity</label>
-          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_LtoH" name = "sort" value ="LtoH" required>Price(Low to High)</label>
-          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_HtoL" name = "sort" value ="HtoL" required>Price(High to Low)</label>
-          {% elif old_sort == 'HtoL' %}
-          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" required>Rating</label>
-          <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" required>Popularity</label>
-          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_LtoH" name = "sort" value ="LtoH" required>Price(Low to High)</label>
-          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_HtoL" name = "sort" value ="HtoL" checked = "checked" required>Price(High to Low)</label>
-          {% elif old_sort == 'LtoH' %}
-          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" required>Rating</label>
-          <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" required>Popularity</label>
-          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_LtoH" name = "sort" value ="LtoH" checked = "checked" required>Price(Low to High)</label>
-          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_HtoL" name = "sort" value ="HtoL"  required>Price(High to Low)</label>
-          {% else %}
-          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" checked = "checked" required>Rating</label>
-          <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" required>Popularity</label>
-          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_LtoH" name = "sort" value ="LtoH" required>Price(Low to High)</label>
-          <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_HtoL" name = "sort" value ="HtoL"  required>Price(High to Low)</label>
-          {% endif %}
-          <br><br><br>
-          <button type="submit" class="btn btn-info">Search</button>
-        </div>
-      </form>
-      <form class="form-inline global-search">
-        <div class = "form-group">
-          {% if data %}
-          <h1 style="font-size: 40px; font-family:lobster">{{output_message}}</h1>
-          <br><br>
-          {% for d in data %}
-          <div class = "product">
-            <div class = "rank_space">
-              <p>No.{{d['rank']}}</p>
-            </div>
-            <div class = "image_container">
-              <a href = "javascript:void(0)" onclick = "showdetail('{{d['prod_id']}}')"><img class="productImage" src = "{{d['image']}}" alt='productImage'/></a>
-            </div>
-            <br>
-            <center><a class = "prod_info" href = "javascript:void(0)" onclick = "showdetail('{{d['prod_id']}}')">{{d['brand']}}: {{d['name']}}</a></center>
-            <p class = "prod_info">${{d['price']}}<br>
-            Avg rating: {{d['rating']}} ({{d['reviews']}})</p>
-
+            </script>
+            <br><br>
+            <!---Price range slider referenced https://jqueryui.com/slider/#range-->
+            <p>
+              <label for="amount" class = "form_label">Price range:</label>
+              <input type="text" id="amount" name = "amount" style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="slider-range"></div>
+            <br><br>
+            <label class = "form_label">How would you like to sort the products?</label><br>
+            {% if old_sort == 'popularity' %}
+            <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" required>Rating</label>
+            <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" checked = "checked" required>Popularity</label>
+            <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_LtoH" name = "sort" value ="LtoH" required>Price(Low to High)</label>
+            <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_HtoL" name = "sort" value ="HtoL" required>Price(High to Low)</label>
+            {% elif old_sort == 'HtoL' %}
+            <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" required>Rating</label>
+            <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" required>Popularity</label>
+            <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_LtoH" name = "sort" value ="LtoH" required>Price(Low to High)</label>
+            <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_HtoL" name = "sort" value ="HtoL" checked = "checked" required>Price(High to Low)</label>
+            {% elif old_sort == 'LtoH' %}
+            <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" required>Rating</label>
+            <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" required>Popularity</label>
+            <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_LtoH" name = "sort" value ="LtoH" checked = "checked" required>Price(Low to High)</label>
+            <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_HtoL" name = "sort" value ="HtoL"  required>Price(High to Low)</label>
+            {% else %}
+            <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_rate" name = "sort" value ="rating" checked = "checked" required>Rating</label>
+            <label class = "sort_space" for = "sort_pop"><input type = "radio" id = "sort_pop" name = "sort" value="popularity" required>Popularity</label>
+            <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_LtoH" name = "sort" value ="LtoH" required>Price(Low to High)</label>
+            <label class = "sort_space" for = "sort_rate"><input type = "radio" id = "sort_HtoL" name = "sort" value ="HtoL"  required>Price(High to Low)</label>
+            {% endif %}
+            <br><br><br>
+            <button type="submit" class="btn btn-info">Search</button>
           </div>
-          <div class = "detail hidden" id = "{{d['prod_id']}}">
-            <div class = "image_button">
-            <img class = "detailImage" src = "{{d['image']}}" alt='productImage'/>
-            <a href = "{{d['prod_url']}}" class = "asButton">View on Sephora</a>
-            </div>
-            <a href = "javascript:void(0)" onclick = "closedetail('{{d['prod_id']}}')"><img class = "close_button" src = "static/images/close.png" alt='productImage'/></a>
-            <div class = "upper_detail">
-              <p style="font-size: 20px; font-family:lobster">{{d['brand']}}: {{d['name']}}</p>
-              <p style="font-size: 20px; font-family:lobster">${{d['price']}}</p>
-              <p style="font-size: 20px; font-family:lobster">Avg rating: {{d['rating']}} ({{d['reviews']}} Reviews)</p>
-              <p style="font-size: 20px; font-family:lobster">Similarity Score: {{d['sim_score']}}</p>
-            </div>
-            <div class = "lower_detail">
-              <p>Product Description:</p>
-              <p>{{d['description']}}</p>
-            </div>
-          </div>
-          {% endfor %}
-          {% else: %}
-          <h1>{{output_message}}</h1>
-          {% endif %}
-        </div>
-      </form>
-      <p>Student Name: ({{ netid }})</p>
-      <div id = "productback" class = "hidden">
-      </div>
-    </div>
-    </body>
+        </form>
+        <form class="form-inline global-search">
+          <div class = "form-group">
+            {% if data %}
+            <h1 style="font-size: 40px; font-family:lobster">{{output_message}}</h1>
+            <br><br>
+            {% for d in data %}
+            <div class = "product">
+              <div class = "rank_space">
+                <p>No.{{d['rank']}}</p>
+              </div>
+              <div class = "image_container">
+                <a href = "javascript:void(0)" onclick = "showdetail('{{d['prod_id']}}')"><img class="productImage" src = "{{d['image']}}" alt='productImage'/></a>
+              </div>
+              <br>
+              <center><a class = "prod_info" href = "javascript:void(0)" onclick = "showdetail('{{d['prod_id']}}')">{{d['brand']}}: {{d['name']}}</a></center>
+              <p class = "prod_info">${{d['price']}}<br>
+                Avg rating: {{d['rating']}} ({{d['reviews']}})</p>
 
-    </html>
+              </div>
+              <div class = "detail hidden" id = "{{d['prod_id']}}">
+                <div class = "image_button">
+                  <img class = "detailImage" src = "{{d['image']}}" alt='productImage'/>
+                  <a href = "{{d['prod_url']}}" class = "asButton">View on Sephora</a>
+                </div>
+                <a href = "javascript:void(0)" onclick = "closedetail('{{d['prod_id']}}')"><img class = "close_button" src = "static/images/close.png" alt='productImage'/></a>
+                <div class = "upper_detail">
+                  <p style="font-size: 20px; font-family:lobster">{{d['brand']}}: {{d['name']}}</p>
+                  <p style="font-size: 20px; font-family:lobster">${{d['price']}}</p>
+                  <p style="font-size: 20px; font-family:lobster">Avg rating: {{d['rating']}} <a href = "javascript:void(0)" onclick = "openreview('{{d['prod_id']}}')">({{d['reviews']}} Reviews)</a></p>
+                  <p style="font-size: 20px; font-family:lobster">Similarity Score: {{d['sim_score']}}</p>
+                </div>
+                <div class = "lower_detail">
+                  <p>Product Description:</p>
+                  <p>{{d['description']}}</p>
+                </div>
+              </div>
+              <div class = "review review_hidden" id = "{{d['prod_id']}}review">
+                <p style="font-size: 20px; font-family:lobster">Reviews</p>
+                <a href = "javascript:void(0)" onclick = "closereview('{{d['prod_id']}}')"><img class = "close_button" src = "static/images/close.png" alt='productImage'/></a>
+                {% for review in d['sample_reviews'] %}
+                <div class = "user_review">
+                  <div>
+                    <img class = "profile_image" src = "static/images/default-profile.png" alt = "user_profile"/>
+                  </div>
+                  <div class = "review_detail">
+                    {% if review['skin_type'] == 'nan' %}
+                    <p>Skin Type: N/A</p>
+                    {% else %}
+                    <p>Skin Type: {{review['skin_type']}}</p>
+                    {% endif %}
+                    {% if review['skin_concern'] %}
+                    <p>Skin Concern: {{review['skin_concern']}}</p>
+                    {% endif %}
+                    <p>Rating: {{review['rating']}}</p>
+                    <p>{{review['text']}}</p>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              {% endfor %}
+              {% else: %}
+              <h1>{{output_message}}</h1>
+              {% endif %}
+            </div>
+          </form>
+          <p>Student Name: ({{ netid }})</p>
+          <div id = "productback" class = "hidden">
+          </div>
+        </div>
+      </body>
+
+      </html>
