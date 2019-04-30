@@ -1,6 +1,7 @@
 from . import *
 import numpy as np
 import pickle
+import random
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from app.irsystem.models.helpers import *
@@ -34,6 +35,21 @@ class Product:
     for review in self.reviews:
       total_score += review.rating
     return total_score / len(self.reviews)
+
+  def sample_ratings(self):
+    if len(self.reviews) < 3:
+      return [{'text': review.text,
+							 'rating': review.rating,
+							 'skin_type': review.skin_type,  
+							 'skin_concerns': review.skin_concerns} for review in self.reviews]
+    else:
+      rand_num = []
+      for i in range(3):
+        rand_num.append(random.randrange(0, len(self.reviews)))
+      return [{'text': self.reviews[n].text, 
+							 'rating': self.reviews[n].rating, 
+							 'skin_type': self.reviews[n].skin_type,  
+							 'skin_concerns': self.reviews[n].skin_concerns} for n in rand_num]
 
 """
 Class Represetning the information of a review
@@ -147,10 +163,10 @@ def search():
 
 	if sort_option == 'popularity':
 		result_ids = sort_by_popularity(result_ids)
-	elif sort_option == 'price_low_high':
+	elif sort_option == 'LtoH':
 		result_ids = sort_by_price_low_high(result_ids)
-	elif sort_option == 'price_high_low':
-		results_ids = sort_by_price_high_low(result_ids)
+	elif sort_option == 'HtoL':
+		result_ids = sort_by_price_high_low(result_ids)
 	else:
 		result_ids = sort_by_ratings(result_ids)
 
@@ -162,10 +178,11 @@ def search():
 		'price': product_dict[prod_id].price,
 		'rating': str(round(product_dict[prod_id].rating, 2)),
 		'description': product_dict[prod_id].description,
-		'sim_score': score,
+		'sim_score': str(round(score, 2)),
 		'prod_id': prod_id,
 		'prod_url': prod_url_prefix + prod_id,
-		'reviews': len(product_dict[prod_id].reviews)
+		'reviews': len(product_dict[prod_id].reviews),
+    'sample_reviews': product_dict[prod_id].sample_ratings()
 	} for (prod_id, score) in result_ids]
 	for idx in range(len(data)):
 		data[idx]['rank'] = idx + 1
